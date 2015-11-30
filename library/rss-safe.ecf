@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="rss" uuid="DDBB3725-5E27-4499-847E-316641E276B5" library_target="rss">
+	<target name="rss">
+		<root all_classes="true"/>
+		<file_rule>
+			<exclude>/.git$</exclude>
+			<exclude>/EIFGENs$</exclude>
+			<exclude>/.svn$</exclude>
+		</file_rule>
+		<option warning="true" full_class_checking="true" is_attached_by_default="true" void_safety="all" syntax="standard">
+		</option>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="net" location="$ISE_LIBRARY\library\net\net-safe.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time-safe.ecf"/>
+		<library name="xml_parser" location="$ISE_LIBRARY\library\text\parser\xml\parser\xml_parser-safe.ecf"/>
+		<library name="xml_tree" location="$ISE_LIBRARY\library\text\parser\xml\tree\xml_tree-safe.ecf"/>
+		<cluster name="adt" location=".\adt\" recursive="true"/>
+		<!--
+		<cluster name="fetch" location=".\fetch\" recursive="true"/>
+		<cluster name="logfile" location=".\logfile\" recursive="true"/>
+		<cluster name="properties" location=".\properties\" recursive="true"/>
+		-->
+		<cluster name="syndication" location=".\syndication\" recursive="true">
+			<file_rule>
+				<exclude>/interface$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

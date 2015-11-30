@@ -1,0 +1,387 @@
+<?xml version="1.0"?>
+
+<project name="test" default="help">
+
+	<description>
+		system: "EiffelRSS Library Tester"
+		description: "Based on Gobo Eiffel Kernel Library Tester by Eric Bezault"
+		author: "Thomas Weibel"
+		date: "$Date: 2005-01-31 00:26:11 +0100 (lun., 31 janv. 2005) $"
+		revision: "$Rev: 249 $"
+	</description>
+
+	<target name="help">
+		<echo message="usage:"/>
+		<echo message="   geant install"/>
+		<echo message="   geant test"/>
+		<echo message="   geant test_ise"/>
+		<echo message="   geant test_se"/>
+		<echo message="   geant test_debug"/>
+		<echo message="   geant test_debug_ise"/>
+		<echo message="   geant test_debug_se"/>
+		<echo message="   geant compile"/>
+		<echo message="   geant compile_ise"/>
+		<echo message="   geant compile_se"/>
+		<echo message="   geant compile_debug"/>
+		<echo message="   geant compile_debug_ise"/>
+		<echo message="   geant compile_debug_se"/>
+		<echo message="   geant clean"/>
+		<echo message="   geant clobber"/>
+	</target>
+
+	<target name="test" depend="init">
+		<description>
+			Test '${system}'.
+			Use 'ise'.
+			Compile in debug mode if ${debug} is defined.
+		</description>
+
+		<geant target="clean"/>
+		<set name="debug_suffix" value="_debug" if="${debug}"/>
+		<set name="debug_suffix" value="" unless="${debug}"/>
+		<set name="gobo_os" value="-DGOBO_OS=unix" if="${GOBO_OS}=unix"/>
+		<set name="gobo_os" value="-DGOBO_OS=windows" if="${GOBO_OS}=windows"/>
+		<echo message=""/>
+		<echo message="Testing ${system}..."/>
+		<getest config="${system_dir}/getest.cfg" compile="geant ${gobo_os} -b ${system_dir}/build.eant compile${debug_suffix}_${eiffel} ${compilation_log}">
+			<define name="debug" value="true" if="${debug}"/>
+		</getest>
+	</target>
+
+	<target name="test_ise" depend="init">
+		<description>
+			Test '${system}' with ISE Eiffel.
+			Compile in debug mode if ${debug} is defined.
+		</description>
+
+		<set name="eiffel" value="ise"/>
+		<geant target="test"/>
+	</target>
+
+	<target name="test_se" depend="init">
+		<description>
+			Test '${system}' with SmallEiffel.
+			Compile in debug mode if ${debug} is defined.
+		</description>
+
+		<set name="eiffel" value="se"/>
+		<geant target="test"/>
+	</target>
+
+	<target name="test_debug" depend="init">
+		<description>
+			Test '${system}' in debug mode.
+			Use 'ise'.
+		</description>
+
+		<set name="debug" value="true"/>
+		<geant target="test"/>
+	</target>
+
+	<target name="test_debug_ise" depend="init">
+		<description>
+			Test '${system}' with ISE Eiffel in debug mode.
+		</description>
+
+		<set name="eiffel" value="ise"/>
+		<set name="debug" value="true"/>
+		<geant target="test"/>
+	</target>
+
+	<target name="test_debug_se" depend="init">
+		<description>
+			Test '${system}' with SmallEiffel in debug mode.
+		</description>
+
+		<set name="eiffel" value="se"/>
+		<set name="debug" value="true"/>
+		<geant target="test"/>
+	</target>
+
+	<target name="clean" depend="init">
+		<description>
+			Remove intermediary generated files.
+		</description>
+
+		<ise clean="${system}"/>
+		<se clean="${system}"/>
+		<ve clean="${system}" recursive="true"/>
+		<delete file="compile_ise.ace"/>
+		<delete file="compile_se.ace"/>
+		<delete file="${system}${exe}"/>
+		<delete file="${system}.melted"/>
+		<delete file="lib${system}.dll"/>
+		<delete>
+			<fileset include="@(${system}_module_*.dll)"/>
+		</delete>
+		<delete file="${system}.h2o"/>
+		<delete directory="TESTGEN"/>
+		<delete file="xcompile.log"/>
+		<geant target="other_clean"/>
+	</target>
+
+
+<!-- Implementation -->
+
+	<target name="init">
+		<set name="compilation_log" value="&gt; xcompile.log 2&gt;&amp;1"/>
+		<set name="eiffel" value="ise"/>
+		<geant target="init_eiffel"/>
+		<geant target="init_os"/>
+		<geant target="init_system"/>
+	</target>
+	
+<!--================-->
+<!--| eiffel.eant  |-->
+<!--================-->
+
+	<target name="install" depend="init">
+		<description>
+			Install ${system} directory.
+		</description>
+
+		<unset name="gexace_output"/>
+		<set name="eiffel" value="ise"/>
+		<geant target="xace"/>
+		<set name="eiffel" value="ise"/>
+		<geant target="xace"/>
+		<geant target="other_install"/>
+	</target>
+
+	<target name="compile" depend="prepare_compile">
+		<description>
+			Compile '${system}'.
+			Use 'ise'.
+			Compile in debug mode if ${debug} is defined.
+		</description>
+
+		<set name="eiffel" value="ise"/>
+		<geant target="compile_${eiffel}"/>
+	</target>
+
+	<target name="compile_ise" depend="prepare_compile">
+		<description>
+			Compile '${system}' with ISE Eiffel.
+			Compile in debug mode if ${debug} is defined.
+		</description>
+
+		<set name="eiffel" value="ise"/>
+		<!--
+		<set name="gexace_output" value="compile_ise.ace"/>
+		<geant target="xace"/>
+		-->
+		<delete file="${system}${exe}"/>
+		<delete file="${system}.melted"/>
+		<delete file="lib${system}.dll"/>
+		<delete>
+			<fileset include="@(${system}_module_*.dll)"/>
+		</delete>
+		<set name="finalize" value="true"/>
+		<set name="finalize" value="false" if="${debug}"/>
+		<!--
+		<ise ace="compile_ise.ace" system="${system}" finalize="${finalize}" finish_freezing="true"/>
+		-->
+		<ise ace="ise55_linux.ace" system="${system}" finalize="${finalize}" finish_freezing="true" if="${GOBO_OS}=unix"/>
+		<ise ace="ise55_windows.ace" system="${system}" finalize="${finalize}" finish_freezing="true" if="${GOBO_OS}=windows"/>
+		<set name="codedir" value="W_code" if="${finalize}=false"/>
+		<set name="codedir" value="F_code" if="${finalize}=true"/>
+		<move file="EIFGEN/${codedir}/${system}${exe}" to_directory="."/>
+		<available resource="EIFGEN/${codedir}/lib${system}.dll" variable="file_available"/>
+		<copy file="EIFGEN/${codedir}/lib${system}.dll" to_directory="." if="${file_available}=true"/>
+		<available resource="EIFGEN/${codedir}/${system}.melted" variable="file_available"/>
+		<copy file="EIFGEN/${codedir}/${system}.melted" to_directory="." if="${file_available}=true"/>
+		<copy to_directory=".">
+			<fileset include="@(EIFGEN/${codedir}/${system}_module_*.dll)">
+				<map type="flat"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile_se" depend="prepare_compile">
+		<description>
+			Compile '${system}' with SmallEiffel.
+			Compile in debug mode if ${debug} is defined.
+		</description>
+
+		<set name="eiffel" value="se"/>
+		<set name="gexace_output" value="compile_se.ace"/>
+		<geant target="xace"/>
+		<delete file="${system}${exe}"/>
+		<se ace="compile_se.ace"/>
+	</target>
+
+	<target name="compile_debug" depend="prepare_compile">
+		<description>
+			Compile '${system}' in debug mode.
+			Use 'ise'.
+		</description>
+
+		<set name="debug" value="true"/>
+		<geant target="compile"/>
+	</target>
+
+	<target name="compile_debug_ise" depend="prepare_compile">
+		<description>
+			Compile '${system}' with ISE Eiffel in debug mode.
+		</description>
+
+		<set name="eiffel" value="ise"/>
+		<set name="debug" value="true"/>
+		<geant target="compile"/>
+	</target>
+
+	<target name="compile_debug_se" depend="prepare_compile">
+		<description>
+			Compile '${system}' with SmallEiffel in debug mode.
+		</description>
+
+		<set name="eiffel" value="se"/>
+		<set name="debug" value="true"/>
+		<geant target="compile"/>
+	</target>
+
+	<target name="bootstrap" depend="init">
+		<description>
+			Compile '${system}' with SmallEiffel in bootstrap mode.
+		</description>
+
+		<set name="eiffel" value="se"/>
+		<set name="bootstrap" value="true"/>
+		<geant target="compile"/>
+	</target>
+
+	<target name="clobber" depend="init">
+		<description>
+			Remove all generated files.
+		</description>
+
+		<geant target="clean"/>
+		<!--
+		<delete file="ise.ace"/>
+		-->
+		<delete file="se.ace"/>
+		<delete file="${system}${exe}"/>
+		<delete file="${system}.melted"/>
+		<delete file="lib${system}.dll"/>
+		<delete>
+			<fileset include="@(${system}_module_*.dll)"/>
+		</delete>
+		<delete file="${system}.h2o"/>
+		<geant target="other_clobber"/>
+	</target>
+
+
+<!-- Implementation -->
+
+	<target name="xace" depend="init">
+		<description>
+			Build Ace file or ESD file for Eiffel compiler ${eiffel}.
+			Generate file in ${gexace_output} if specified.
+			Pass $DEBUG option to 'gexace' if ${debug} is defined.
+			Pass $BOOTSTRAP option to 'gexace' if ${bootstrap} is defined.
+			Pass $GOBO_OS value to 'gexace'.
+			Pass $GOBO_CC value to 'gexace' if defined.
+			Pass $GOBO_XML_EXPAT option to 'gexace' if defined.
+			Pass $GOBO_DOTNET option to 'gexace' if defined.
+			Pass $ISE_5_1 option to 'gexace' if defined.
+			Pass $SE_0_74 option to 'gexace' if defined.
+			To be redefined in descendant if additional options are
+			necessary.
+		</description>
+
+		<set name="gexace_output" value="" unless="${gexace_output}"/>
+		<gexace system="${eiffel}" output="${gexace_output}" xace="${system_dir}/system.xace">
+			<define name="DEBUG" value="${debug}" if="${debug}"/>
+			<define name="BOOTSTRAP" value="${bootstrap}" if="${bootstrap}"/>
+			<define name="GOBO_OS" value="${GOBO_OS}"/>
+			<define name="GOBO_CC" value="${GOBO_CC}" if="${GOBO_CC}"/>
+			<define name="GOBO_XML_EXPAT" value="true" if="${GOBO_XML_EXPAT}"/>
+			<define name="GOBO_DOTNET" value="true" if="${GOBO_DOTNET}"/>
+			<define name="ISE_5_1" value="true" if="${ISE_5_1}"/>
+			<define name="SE_0_74" value="true" if="${SE_0_74}"/>
+		</gexace>
+	</target>
+
+	<target name="prepare_compile" depend="init">
+		<description>
+			Prepare compilation if necessary.
+		</description>
+
+		<!-- To be redefined in descendant if necessary -->
+	</target>
+
+	<target name="other_install" depend="init">
+		<description>
+			Install other items in ${system} directory.
+		</description>
+
+		<!-- To be redefined in descendant if necessary -->
+	</target>
+
+	<target name="other_clean" depend="init">
+		<description>
+			Remove other intermediary generated files.
+		</description>
+
+		<!-- To be redefined in descendant if necessary -->
+	</target>
+
+	<target name="other_clobber" depend="init">
+		<description>
+			Remove other generated files.
+		</description>
+
+		<!-- To be redefined in descendant if necessary -->
+	</target>
+
+	<target name="init_system">
+		<!--
+			Values to be defined:
+				. ${system} : name of the system to be compiled
+				. ${system_dir} : directory for the compilation
+		-->
+	</target>
+
+	<target name="init_eiffel" if="${GOBO_EIFFEL}">
+		<!--
+		<set name="eiffel" value="${GOBO_EIFFEL}"/>
+		-->
+	</target>
+
+	<target name="init_os">
+		<geant target="init_windows"/>
+		<geant target="init_unix"/>
+	</target>
+
+	<target name="init_windows" if="${GOBO_OS}=windows">
+		<set name="exe" value=".exe"/>
+	</target>
+
+	<target name="init_unix" unless="${GOBO_OS}=windows">
+		<set name="exe" value=""/>
+	</target>
+
+<!--==============-->
+<!--| ge2e.eant  |-->
+<!--==============-->
+
+	<target name="ge2e">
+		<description>
+			Generate Eiffel files to directory '${spec_dir}/[compiler]'
+			from '${gepp_dir}/${gepp_file}.ge', where [compiler] is
+			'ise' and 'se'. Create spec directories
+			if necessary.
+		</description>
+
+		<gepp input="${gepp_dir}/${gepp_file}.ge" output="${spec_dir}/ise/${gepp_file}.e" lines="true">
+			<define name="ISE"/>
+			<define name="ISE_5_1" if="${ISE_5_1}"/>
+			<define name="GOBO_DOTNET" if="${GOBO_DOTNET}"/>
+		</gepp>
+		<gepp input="${gepp_dir}/${gepp_file}.ge" output="${spec_dir}/se/${gepp_file}.e" lines="true">
+			<define name="SE"/>
+			<define name="SE_0_74" if="${SE_0_74}"/>
+		</gepp>
+	</target>
+
+</project>

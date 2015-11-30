@@ -1,0 +1,110 @@
+system
+	"newsreader"
+
+root
+	APPLICATION: make_and_launch
+
+default
+	precompiled ("${ISE_EIFFEL}\precomp\spec\windows\vision2")
+	assertion (check)
+	assertion (require)
+	assertion (ensure)
+	assertion (loop)
+	assertion (invariant)
+	disabled_debug (yes)
+	disabled_debug ("dlg_dispatcher")
+	disabled_debug ("vision2_windows")
+	disabled_debug ("vision2_windows_gdi")
+	disabled_debug ("wel")
+	disabled_debug ("wel_gdi_count")
+	disabled_debug ("wel_gdi_references")
+	disabled_debug ("win_dispatcher")
+	debug (no)
+	line_generation (no)
+	trace (no)
+	check_vape (yes)
+	console_application (no)
+	syntax_warning (no)
+	address_expression (no)
+	array_optimization (no)
+	dead_code_removal (yes)
+	dynamic_runtime (no)
+	exception_trace (no)
+	inlining (no)
+	multithreaded (no)
+	arguments ("-cl")
+	arguments ("-no_debug_window")
+
+
+cluster
+	newsreader:		"."
+
+	view (newsreader):		"$\view"
+
+	windowed (view):		"$\windowed"
+
+	bars (windowed):		"$\bars"
+
+	dialogs (windowed):		"$\dialogs"
+
+	feed_representation (windowed):		"$\feed_representation"
+
+	cl (view):		"$\cl"
+
+	commands (cl):		"$\commands"
+
+	feed_context (commands):		"$\feed_context"
+
+	all eiffelrss:		"..\library"
+		exclude
+			".svn"; 
+		default
+			assertion (no)
+			trace (no)
+		end
+
+	library base:		"$ISE_EIFFEL\library\base"
+		exclude
+			"table_eiffel3"; "desc"; 
+		end
+
+	library time:		"$ISE_EIFFEL\library\time"
+		exclude
+			"french"; "german"; 
+		end
+
+	library net:		"$ISE_EIFFEL\library\net"
+		default
+			assertion (no)
+			trace (no)
+		end
+
+	library gobo:		"$ISE_EIFFEL\free_add_ons\gobo\library"
+		exclude
+			"other"; "ve"; "se"; "hact"; "expat"; 
+		default
+			assertion (no)
+			trace (no)
+		end
+
+	library wel:		"$ISE_EIFFEL\library\wel"
+
+	library vision2:		"${ISE_EIFFEL}\library\vision2"
+		exclude
+			"gtk"; "EIFGEN"; "tmp"; "temp"; "release"; "obsolete"; "CVS"; 
+		end
+
+external
+
+	include_path:
+		"$(ISE_EIFFEL)\library\vision2\spec\include",
+		"$(ISE_EIFFEL)\library\wel\spec\windows\include"
+
+	object:
+		"$(ISE_EIFFEL)\library\wel\spec\$(ISE_C_COMPILER)\lib\wel.lib",
+		"$(ISE_EIFFEL)\library\vision2\spec\$(ISE_C_COMPILER)\lib\vision2.lib",
+		"$(ISE_EIFFEL)\library\vision2\spec\$(ISE_C_COMPILER)\lib\zlib.lib",
+		"$(ISE_EIFFEL)\library\vision2\spec\$(ISE_C_COMPILER)\lib\libpng.lib",
+		"$(ISE_EIFFEL)\library\net\spec\$(ISE_C_COMPILER)\lib\net.lib"
+
+end

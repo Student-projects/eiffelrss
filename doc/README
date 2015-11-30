@@ -1,0 +1,16 @@
+EiffelRSS documentation
+=======================
+
+This directory contains the following documentation:
+
+	* Eiffel Programming Tips (./eiffel-programming-tips/)
+	* Experience Report (./experience-report/)
+	* Developer Guide for the different library clusters (./library/*)
+	* Newsreader User Guide (./newsreader-user-guide/)
+	* Poster (./poster/)
+	* Presentation (./presentation/)
+	* Project Description (./project-description/)
+	* Test Report (./test-report/)
+
+All documentation documents are available as PDF and LaTeX. rubber 
+(http://rubber.sourceforge.net/) was used to compile the LaTeX sources.

@@ -1,0 +1,351 @@
+%===============================================================================
+% Eiffel Programming Tips
+%===============================================================================
+% $Id: eiffel-programming-tips.tex 248 2005-01-30 23:25:27Z thom $
+%===============================================================================
+
+
+%===============================================================================
+% Configuration
+%===============================================================================
+
+
+%-------------------------------------------------------------------------------
+% \documentclass and \usepackage directives
+%-------------------------------------------------------------------------------
+\documentclass[a4paper,fleqn,titlepage]{article} 
+%\usepackage{ngerman}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[small,hang,bf]{caption2}
+\usepackage{fancyhdr}
+\usepackage[nice]{nicefrac}
+\usepackage{color,listings}
+\usepackage{alltt}
+
+
+% Compilation with latex or pdflatex?
+\newif\ifpdf 
+\ifx\pdfoutput\undefined 
+  \pdffalse
+\else
+  \pdfoutput=1 
+  \pdftrue 
+\fi 
+
+% Compilation with pdflatex
+\ifpdf
+ 
+  \usepackage[pdftex]{graphicx}
+
+  \usepackage[
+    pdftex,
+    a4paper,
+    bookmarks,
+    pdfstartview=FitH,    % starts with page width
+    bookmarksopen,        % opens index
+    bookmarksnumbered,    % index with numbering
+    colorlinks,           % links with color, otherwise with border
+    linkcolor=blue,       % Standard red
+    citecolor=blue,       % Standard green
+    urlcolor=magenta,     % Standard cyan
+    filecolor=blue
+  ]{hyperref} 
+
+  \pdfinfo{
+    /Title      (Eiffel Programming Tips)
+    /Author     (Thomas Weibel, Martin Luder, Michael Käser)
+    /Subject    (Eiffel programming)
+    /Keywords   (Programming, EiffelRSS)
+  }
+
+  % Use default Acrobat reader fonts
+  \usepackage{mathpazo}
+
+  % Use CM fonts (increases document size)
+  % \usepackage{ae}
+
+% Compilation with latex
+\else 
+
+  \usepackage{graphicx} 
+
+\fi
+
+
+%-------------------------------------------------------------------------------
+% Configure \maketitle
+%-------------------------------------------------------------------------------
+\title{EiffelRSS \\ Eiffel Programming Tips}
+\author{
+  Michael K\"aser <kaeserm@student.ethz.ch>
+  \and 
+  Martin Luder <luderm@student.ethz.ch>
+  \and 
+  Thomas Weibel <weibelt@student.ethz.ch>
+}
+\date{\today}
+
+
+%-------------------------------------------------------------------------------
+% Configure fancyhdr
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{0.1 pt}
+\renewcommand{\footrulewidth}{0.1 pt}
+
+\fancypagestyle{plain}{
+  \lhead{\nouppercase{\leftmark}}
+  \chead{}
+  \rhead{\thepage}
+  \lfoot{EiffelRSS}
+  \cfoot{}
+  \rfoot{Eiffel Programming Tips}
+}
+
+\lhead{\nouppercase{\leftmark}}
+\chead{}
+\rhead{\thepage}
+
+\lfoot{EiffelRSS}
+\cfoot{}
+\rfoot{Eiffel Programming Tips}
+
+
+%-------------------------------------------------------------------------------
+% Configure listings
+%-------------------------------------------------------------------------------
+\lstset{showstringspaces=false,
+  breaklines=true,
+  breakindent=0pt,
+  prebreak=\mbox{\tiny$\searrow$},
+  postbreak=\mbox{{\color{blue}\tiny$\rightarrow$}},
+  frame=trBL,
+  framerule=0.75pt,
+  framesep=4pt,
+  rulesep=0.75pt
+}
+
+
+%-------------------------------------------------------------------------------
+% Common configuration
+%-------------------------------------------------------------------------------
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\sloppy
+\setlength{\mathindent}{0em}
+
+
+%-------------------------------------------------------------------------------
+% Commandos
+%-------------------------------------------------------------------------------
+\newcommand{\hr}{\rule{\textwidth}{1pt}}
+
+
+%===============================================================================
+% Document
+%===============================================================================
+\begin{document}
+
+\begin{titlepage}
+  \newlength{\centeroffset}
+  \setlength{\centeroffset}{-0.5\oddsidemargin}
+  \addtolength{\centeroffset}{0.5\evensidemargin}
+
+  \thispagestyle{empty}
+
+  \noindent\includegraphics[width=\textwidth]{../figures/big_ETH}\\[-3mm]
+  \hr
+
+  \vspace*{\stretch{1}}
+
+  \makebox[0pt][l]{
+    \begin{minipage}{\textwidth}
+      \flushright{
+        \Huge\bfseries EiffelRSS
+      }
+
+      \noindent\rule{\textwidth}{3pt}\\[2.5ex]
+
+      \hfill\emph{
+        \Large Eiffel Programming Tips
+      }
+    \end{minipage}
+  }
+
+  \vspace{\stretch{1}}
+
+  \makebox[0pt][l]{
+    \begin{minipage}{\textwidth}
+      \flushright{
+        \bfseries 
+        Michael K\"aser <kaeserm@student.ethz.ch>\\[0.3ex]
+        Martin Luder <luderm@student.ethz.ch>\\[0.3ex]
+        Thomas Weibel <weibelt@student.ethz.ch>\\[0.3ex]
+      }
+    \end{minipage}
+  }
+
+  \vspace{\stretch{1}}
+
+  \noindent\hr\\[1mm]
+  \includegraphics[width=\textwidth]{../figures/big_inf}
+\end{titlepage}
+
+% Use roman page numbering
+\pagenumbering{roman}
+
+\begin{abstract}
+  This document contains various handy tips for programming with ISE
+  Eiffel.
+\end{abstract}
+
+% Set page counter to zero
+\setcounter{page}{0} 
+
+% Use arabic page numbering
+\pagenumbering{arabic}
+
+
+\section{Downloading files}
+\label{sec:downloading}
+
+With EiffelNet:
+
+\begin{lstlisting}[language=Eiffel]
+local
+  http_source: HTTP_PROTOCOL
+  file_destination: FILE_PROTOCOL
+  http_address: HTTP_URL
+  file_address: FILE_URL
+  transaction: SINGLE_TRANSACTION
+do
+    -- create the connection to the source
+  create http_address.make ("http://eiffelrss.berlios.de/Main/AllRecentChanges?action=rss")
+  create http_source.make (http_address)
+  
+    -- print http-url-string of source
+  io.put_string ("http location: ")
+  io.put_string (http_source.location)
+  io.put_new_line
+  
+    -- create the connection to the local file
+  create file_address.make ("eiffelrss.rss")
+  create file_destination.make (file_address)
+  
+    -- print file-url-sting of file
+  io.put_string ("file location: ")
+  io.put_string (file_destination.location)
+  io.put_new_line
+  
+    -- create the transaction
+  create transaction.make (http_source, file_destination)
+  
+    -- test if the transaction is correct
+  io.put_string ("transaction is correct: " + transaction.is_correct.out)
+  io.put_new_line
+  
+    -- download the file
+  transaction.execute
+  
+    -- test if the transaction succeeded
+  io.put_string ("transaction succeeded: " + transaction.succeeded.out)
+  io.put_new_line
+end
+\end{lstlisting}
+
+Multiple files can be downloaded with class
+\texttt{MULTIPLE\_TRANSACTION}, which is a container of
+\texttt{TRANSACTION}.
+
+
+
+\section{Portable file access}
+\label{sec:file}
+
+With class \texttt{PLAIN\_TEXT\_FILE}:
+
+\begin{lstlisting}[language=Eiffel]
+local
+  input_file, output_file: PLAIN_TEXT_FILE
+    -- Files for input and output
+do
+    -- Open files
+  create input_file.make_open_read ("./path/to/input.txt")
+  create output_file.make_create_read_write ("./path/to/output.txt")
+      
+    -- Read from input
+  input_file.read_line
+  io.put_string (input.last_string + "%N")
+
+    -- Write to output
+  output_file.put_string (input.last_string)
+  output_file.put_new_line
+
+    -- Close files
+  input_file.close
+  output_file.close
+end
+\end{lstlisting}
+
+This works for Unix and Windows. Make sure to only use slashes
+(\texttt{/}) in the path, backslashes (\texttt{$\backslash$}) don't
+work under Unix.
+
+
+\section{Detecting the underlying operating system}
+\label{sec:os}
+
+The Gobo libraries feature the class \texttt{KL\_OPERATING\_SYSTEM} to
+detect the underlying operating system:
+
+\begin{lstlisting}[language=Eiffel]
+local
+  operating_system: KL_OPERATING_SYSTEM
+do
+  create operating_system
+  io.put_string ("DotNet? " + operating_system.is_dotnet.out + "%N")
+  io.put_string ("Unix? " + operating_system.is_unix.out + "%N")
+  io.put_string ("Windows? " + operating_system.is_windows.out + "%N")
+end
+\end{lstlisting}
+
+
+\section{Accessing features statically}
+\label{sec:stat}
+
+To access a feature from a class without creating it, just write:
+
+\begin{lstlisting}[language=Eiffel]
+feature {CLASS_NAME}.feature_name
+\end{lstlisting}
+
+For example:
+
+\begin{lstlisting}[language=Eiffel]
+create logfile.make_filename_threshold ("logfile.log", feature {LOGFILE}.Developer)
+\end{lstlisting}
+
+
+\section{Links}
+\label{sec:links}
+
+Links to external documentation, libraries etc.
+
+\begin{itemize}
+\item Reflection
+  \footnote{http://fluri.computerscience.ch/index.php?page=projects\&subpage=m}
+\item Eiffel Software Directory
+  \footnote{http://eiffelzone.com/index.html}
+\item ETest - Eiffel Unit Testing Tool
+  \footnote{http://www.cs.yorku.ca/eiffel/etest/}
+  \begin{itemize}
+  \item ETest Tutorial
+    \footnote{http://www.cs.yorku.ca/eiffel/prism/estudio55.htm}
+  \end{itemize}
+\item EiffelVision2 Tutorial
+  \footnote{http://www.cs.yorku.ca/eiffel/vision2/}
+\end{itemize}
+
+\end{document}

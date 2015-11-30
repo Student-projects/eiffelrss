@@ -1,0 +1,392 @@
+%===============================================================================
+% FETCH Developer Guide
+%===============================================================================
+% $Id: developer-guide.tex 240 2005-01-30 18:22:05Z thom $
+%===============================================================================
+
+
+%===============================================================================
+% Configuration
+%===============================================================================
+
+
+%-------------------------------------------------------------------------------
+% \documentclass and \usepackage directives
+%-------------------------------------------------------------------------------
+\documentclass[a4paper,fleqn,titlepage]{article}
+%\usepackage{ngerman}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[small,hang,bf]{caption2}
+\usepackage{fancyhdr}
+\usepackage[nice]{nicefrac}
+\usepackage{color,listings}
+\usepackage{alltt}
+
+
+% Compilation with latex or pdflatex?
+\newif\ifpdf 
+\ifx\pdfoutput\undefined 
+  \pdffalse
+\else
+  \pdfoutput=1 
+  \pdftrue 
+\fi 
+
+% Compilation with pdflatex
+\ifpdf
+ 
+  \usepackage[pdftex]{graphicx}
+
+  \usepackage[
+    pdftex,
+    a4paper,
+    bookmarks,
+    pdfstartview=FitH,    % starts with page width
+    bookmarksopen,        % opens index
+    bookmarksnumbered,    % index with numbering
+    colorlinks,           % links with color, otherwise with border
+    linkcolor=blue,       % Standard red
+    citecolor=blue,       % Standard green
+    urlcolor=magenta,     % Standard cyan
+    filecolor=blue
+  ]{hyperref} 
+
+  \pdfinfo{
+    /Title      (EiffelRSS FETCH Developer Guide)
+    /Author     (Thomas Weibel, Martin Luder, Michael Käser)
+    /Subject    (Eiffel programming)
+    /Keywords   (Programming, EiffelRSS)
+  }
+
+  % Use default Acrobat reader fonts
+  \usepackage{mathpazo}
+
+  % Use CM fonts (increases document size)
+  % \usepackage{ae}
+
+% Compilation with latex
+\else 
+
+  \usepackage{graphicx} 
+
+\fi
+
+
+%-------------------------------------------------------------------------------
+% Configure \maketitle
+%-------------------------------------------------------------------------------
+\title{EiffelRSS \\ FETCH \\ Developer Guide}
+\author{
+  Michael K\"aser <kaeserm@student.ethz.ch>
+  \and 
+  Martin Luder <luderm@student.ethz.ch>
+  \and 
+  Thomas Weibel <weibelt@student.ethz.ch>
+}
+\date{\today}
+
+
+%-------------------------------------------------------------------------------
+% Configure fancyhdr
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{0.1 pt}
+\renewcommand{\footrulewidth}{0.1 pt}
+
+\fancypagestyle{plain}{
+  \lhead{\nouppercase{\leftmark}}
+  \chead{}
+  \rhead{\thepage}
+  \lfoot{EiffelRSS}
+  \cfoot{}
+  \rfoot{FETCH Developer Guide}
+}
+
+\lhead{\nouppercase{\leftmark}}
+\chead{}
+\rhead{\thepage}
+
+\lfoot{EiffelRSS}
+\cfoot{}
+\rfoot{FETCH Developer Guide}
+
+
+%-------------------------------------------------------------------------------
+% Configure listings
+%-------------------------------------------------------------------------------
+\lstset{showstringspaces=false,
+  breaklines=true,
+  breakindent=0pt,
+  prebreak=\mbox{\tiny$\searrow$},
+  postbreak=\mbox{{\color{blue}\tiny$\rightarrow$}},
+  frame=trBL,
+  framerule=0.75pt,
+  framesep=4pt,
+  rulesep=0.75pt  
+}
+
+
+%-------------------------------------------------------------------------------
+% Common configuration
+%-------------------------------------------------------------------------------
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\sloppy
+\setlength{\mathindent}{0em}
+
+
+%-------------------------------------------------------------------------------
+% Commandos
+%-------------------------------------------------------------------------------
+\newcommand{\hr}{\rule{\textwidth}{1pt}}
+
+
+%===============================================================================
+% Document
+%===============================================================================
+\begin{document}
+
+\begin{titlepage}
+  \newlength{\centeroffset}
+  \setlength{\centeroffset}{-0.5\oddsidemargin}
+  \addtolength{\centeroffset}{0.5\evensidemargin}
+
+  \thispagestyle{empty}
+
+  \noindent\includegraphics[width=\textwidth]{../../figures/big_ETH}\\[-3mm]
+  \hr
+
+  \vspace*{\stretch{1}}
+
+  \makebox[0pt][l]{
+    \begin{minipage}{\textwidth}
+      \flushright{
+        \Huge\bfseries EiffelRSS
+      }
+
+      \noindent\rule{\textwidth}{3pt}\\[2.5ex]
+
+      \hfill\emph{
+        \Large FETCH Developer Guide
+      }
+    \end{minipage}
+  }
+
+  \vspace{\stretch{1}}
+
+  \makebox[0pt][l]{
+    \begin{minipage}{\textwidth}
+      \flushright{
+        \bfseries 
+        Michael K\"aser <kaeserm@student.ethz.ch>\\[0.3ex]
+        Martin Luder <luderm@student.ethz.ch>\\[0.3ex]
+        Thomas Weibel <weibelt@student.ethz.ch>\\[0.3ex]
+      }
+    \end{minipage}
+  }
+
+  \vspace{\stretch{1}}
+
+  \noindent\hr\\[1mm]
+  \includegraphics[width=\textwidth]{../../figures/big_inf}
+\end{titlepage}
+
+% Use roman page numbering
+\pagenumbering{roman}
+
+\begin{abstract}
+  \texttt{FETCH} is a class which has features that can fetch data
+  from a source address to a local \texttt{STRING} using various
+  services.
+  
+  \texttt{FETCH} provides a simple interface for the
+  \texttt{DATA\_RESOURCE} class in EiffelNet.
+\end{abstract}
+
+\clearpage
+\tableofcontents
+
+\clearpage
+\listoffigures
+
+\newpage
+
+\section{Overview}
+\label{sec:overview}
+
+% Set page counter to zero
+\setcounter{page}{0} 
+
+% Use arabic page numbering
+\pagenumbering{arabic}
+\texttt{FETCH} is a class which has features that can fetch data from
+a source address to a local \texttt{STRING} using various services.
+  
+\texttt{FETCH} provides a simple interface for the
+\texttt{DATA\_RESOURCE} class in EiffelNet.
+
+A valid source address has the following format:
+\texttt{service://address}.
+
+Supported services are: file, http, ftp.
+
+See figure \ref{fig:cluster} for an overview of the cluster.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=.6]{./figures/EIFFELRSS_FETCH}
+  \caption{BON diagram of cluster \texttt{FETCH}}
+  \label{fig:cluster}
+\end{figure}
+
+Figure \ref{fig:classes} shows the classes \texttt{FETCH} and
+\texttt{FETCH\_HTTP\_PROTOCOL}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=.6]{./figures/FETCH} $\;\;\;\;$
+  \includegraphics[scale=.6]{./figures/FETCH_HTTP_PROTOCOL}
+  \caption{BON diagram of classes \texttt{FETCH} and \texttt{FETCH\_HTTP\_PROTOCOL}}
+  \label{fig:classes}
+\end{figure}
+
+\newpage
+
+\section{Usage}
+\label{sec:usage}
+
+\begin{lstlisting}[language=Eiffel]
+class
+  USAGE_EXAMPLE
+
+create
+  make
+
+feature -- Initialization
+
+  make is
+      -- Creation procedure.
+    local
+      fetch: FETCH
+      address: STRING
+    do                          
+      create fetch.make
+                        
+      io.put_string ("Please enter an address to fetch: %N")
+      io.read_line
+
+      address := io.last_string.twin
+
+      fetch.set_address (address)
+      fetch.fetch
+                        
+      io.put_new_line
+                        
+      if (fetch.error = fetch.Invalid_address) then
+        io.put_string ("Error: Invalid address")
+      elseif (fetch.error = fetch.Transfer_failed) then
+        io.put_string ("Error: Transfer failed")
+      else
+        io.put_string (fetch.data)
+      end
+
+      io.put_new_line
+  end
+
+end -- class USAGE_EXAMPLE
+\end{lstlisting}
+
+
+\section{Features of FETCH}
+\label{sec:features}
+
+\subsection{Initialization}
+\label{sec:initialization}
+
+
+\subsubsection{make}
+
+\begin{lstlisting}[language=Eiffel]
+make
+  -- Create the object without a source address
+\end{lstlisting}
+
+
+\subsubsection{make\_source}
+
+\begin{lstlisting}[language=Eiffel]
+make_source (an_address: STRING) is
+  -- Create the object with a predefined source
+\end{lstlisting}
+
+
+\subsection{Access}
+\label{sec:access}
+
+
+\subsubsection{data}
+
+\begin{lstlisting}[language=Eiffel]
+data: STRING
+  -- The data fetched
+\end{lstlisting}
+
+This can be void if there was an error.
+
+
+\subsubsection{source\_address}
+
+\begin{lstlisting}[language=Eiffel]
+source_address: STRING
+  -- The source address
+\end{lstlisting}
+
+This can be void.
+
+
+\subsubsection{error}
+
+\begin{lstlisting}[language=Eiffel]
+error: INTEGER
+  -- An error number
+\end{lstlisting}
+
+\texttt{error} can be one of the following constants: \texttt{None},
+\texttt{Invalid\_address}, \texttt{Transfer\_failed}.
+
+None means that there was no error and data is avaiable.
+\texttt{Invalid\_address} means that the given source address was
+either empty or not valid. If the error is \texttt{Transfer\_failed},
+there was a problem when trying to load the data, i.e. there was no
+connection to the internet.
+
+
+\subsection{Basic Operations}
+\label{sec:basic-operations}
+
+
+\subsubsection{set\_address}
+
+\begin{lstlisting}[language=Eiffel]
+set_address (an_address: STRING)
+  -- Sets the address to an_address
+\end{lstlisting}
+
+This sets the source address to \texttt{an\_address}. After calling
+this feature, \texttt{error} can be \texttt{Invalid\_address}.
+
+
+\subsubsection{fetch}
+
+\begin{lstlisting}[language=Eiffel]
+fetch
+  -- Try to fetch the data from source_address
+\end{lstlisting}
+
+If \texttt{error} is not \texttt{Invalid\_address}, fetch tries to
+open it and load the data. If there is a problem while loading the
+data, \texttt{error} is set to \texttt{Transfer\_failed}.
+
+\end{document}

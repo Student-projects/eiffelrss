@@ -1,0 +1,278 @@
+%===============================================================================
+% Experience Report
+%===============================================================================
+% $Id: experience-report.tex 248 2005-01-30 23:25:27Z thom $
+%===============================================================================
+
+
+%===============================================================================
+% Configuration
+%===============================================================================
+
+
+%-------------------------------------------------------------------------------
+% \documentclass and \usepackage directives
+%-------------------------------------------------------------------------------
+\documentclass[a4paper,fleqn,titlepage]{article} 
+%\usepackage{ngerman}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[small,hang,bf]{caption2}
+\usepackage{fancyhdr}
+\usepackage[nice]{nicefrac}
+\usepackage{color,listings}
+\usepackage{alltt}
+
+
+% Compilation with latex or pdflatex?
+\newif\ifpdf 
+\ifx\pdfoutput\undefined 
+  \pdffalse
+\else
+  \pdfoutput=1 
+  \pdftrue 
+\fi 
+
+% Compilation with pdflatex
+\ifpdf
+ 
+  \usepackage[pdftex]{graphicx}
+
+  \usepackage[
+    pdftex,
+    a4paper,
+    bookmarks,
+    pdfstartview=FitH,    % starts with page width
+    bookmarksopen,        % opens index
+    bookmarksnumbered,    % index with numbering
+    colorlinks,           % links with color, otherwise with border
+    linkcolor=blue,       % Standard red
+    citecolor=blue,       % Standard green
+    urlcolor=magenta,     % Standard cyan
+    filecolor=blue
+  ]{hyperref} 
+
+  \pdfinfo{
+    /Title      (Experience Report)
+    /Author     (Thomas Weibel, Martin Luder, Michael Käser)
+    /Subject    (Eiffel programming)
+    /Keywords   (Programming, EiffelRSS)
+  }
+
+  % Use default Acrobat reader fonts
+  \usepackage{mathpazo}
+
+  % Use CM fonts (increases document size)
+  % \usepackage{ae}
+
+% Compilation with latex
+\else 
+
+  \usepackage{graphicx} 
+
+\fi
+
+
+%-------------------------------------------------------------------------------
+% Configure \maketitle
+%-------------------------------------------------------------------------------
+\title{EiffelRSS \\ Experience Report}
+\author{
+  Michael K\"aser <kaeserm@student.ethz.ch>
+  \and 
+  Martin Luder <luderm@student.ethz.ch>
+  \and 
+  Thomas Weibel <weibelt@student.ethz.ch>
+}
+\date{\today}
+
+
+%-------------------------------------------------------------------------------
+% Configure fancyhdr
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{0.1 pt}
+\renewcommand{\footrulewidth}{0.1 pt}
+
+\fancypagestyle{plain}{
+  \lhead{EiffelRSS}
+  \chead{}
+  \rhead{\thepage}
+  \lfoot{EiffelRSS}
+  \cfoot{}
+  \rfoot{Experience Report}
+}
+
+\lhead{EiffelRSS}
+\chead{}
+\rhead{\thepage}
+
+\lfoot{EiffelRSS}
+\cfoot{}
+\rfoot{Experience Report}
+
+
+%-------------------------------------------------------------------------------
+% Configure listings
+%-------------------------------------------------------------------------------
+\lstset{showstringspaces=false,
+  breaklines=true,
+  breakindent=0pt,
+  prebreak=\mbox{\tiny$\searrow$},
+  postbreak=\mbox{{\color{blue}\tiny$\rightarrow$}},
+  frame=trBL,
+  framerule=0.75pt,
+  framesep=4pt,
+  rulesep=0.75pt
+}
+
+
+%-------------------------------------------------------------------------------
+% Common configuration
+%-------------------------------------------------------------------------------
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\sloppy
+\setlength{\mathindent}{0em}
+
+
+%-------------------------------------------------------------------------------
+% Commandos
+%-------------------------------------------------------------------------------
+\newcommand{\hr}{\rule{\textwidth}{1pt}}
+
+
+%===============================================================================
+% Document
+%===============================================================================
+\begin{document}
+
+\begin{titlepage}
+  \newlength{\centeroffset}
+  \setlength{\centeroffset}{-0.5\oddsidemargin}
+  \addtolength{\centeroffset}{0.5\evensidemargin}
+
+  \thispagestyle{empty}
+
+  \noindent\includegraphics[width=\textwidth]{../figures/big_ETH}\\[-3mm]
+  \hr
+
+  \vspace*{\stretch{1}}
+
+  \makebox[0pt][l]{
+    \begin{minipage}{\textwidth}
+      \flushright{
+        \Huge\bfseries EiffelRSS
+      }
+
+      \noindent\rule{\textwidth}{3pt}\\[2.5ex]
+
+      \hfill\emph{
+        \Large Experience Report
+      }
+    \end{minipage}
+  }
+
+  \vspace{\stretch{1}}
+
+  \makebox[0pt][l]{
+    \begin{minipage}{\textwidth}
+      \flushright{
+        \bfseries 
+        Michael K\"aser <kaeserm@student.ethz.ch>\\[0.3ex]
+        Martin Luder <luderm@student.ethz.ch>\\[0.3ex]
+        Thomas Weibel <weibelt@student.ethz.ch>\\[0.3ex]
+      }
+    \end{minipage}
+  }
+
+  \vspace{\stretch{1}}
+
+  \noindent\hr\\[1mm]
+  \includegraphics[width=\textwidth]{../figures/big_inf}
+\end{titlepage}
+
+\begin{abstract}
+  The experience report describes the teamwork, things learned,
+  difficulties, etc. from each project members' point of view.
+\end{abstract}
+
+\section{Michael Käser}
+\label{sec:michael}
+
+I learned quite a lot of new things during the work, mainly in terms
+of teamwork. I haven't really programmed in a team before this project
+and always thought that it must be quite troublesome, but Thomas had a
+lot of experience and knew some very good tools which made everything
+very easy, for example the Wiki, Subversion and his great \LaTeX{}
+templates. We also could divide the work quite good in three parts.
+
+This project was also the first time that I actually thought a lot
+about the design of my classes before writing them. This wasn't a
+problem for me, but I had a lot of difficulties with the EiffelNet
+library, because it is so poorly documented and implemented. Without
+any examples you have to read all the code to understand how it
+actually works.
+
+In the end I'm really happy with the result of this project. The
+design is fine and the library is useful. The project was a good
+experience and definitively the most interesting thing at ETH until
+now.
+
+
+\section{Martin Luder}
+\label{sec:martin}
+
+During the work on this project, I've learned a lot: Newsreader was my
+first GUI that really does something. I've never worked with
+Subversion (or any similar tool) before. Because of Subversion, the
+teamwork worked flawless, and when there were any questions about the
+library, I'd just post it to the Wiki and would get an answer quickly.
+
+I didn't really have many difficulties, because the biggest part of
+the work was with EiffelVision, which is quite simple to handle
+(although it didn't support all the things I wanted to do, like GIF
+support). But some issues in EiffelNet and other parts of the Eiffel
+library annoyed me nonetheless, because Newsreader just wouldn't load
+some feeds and it took some time until Michael and Thomas worked
+around them.
+
+Overall, this project was the best thing during the whole term. It was
+a lot of fun actually doing something concrete after all the theory!
+
+
+\section{Thomas Weibel}
+\label{sec:thomas}
+
+To work on this project was really exciting and I learned a lot,
+especially about Eiffel programming, teamwork and syndication
+standards or better the lack of standards.
+
+The teamwork was excellent. We discussed most design issues in the
+Wiki and had a weekly project meeting. The Wiki helped a lot to
+coordinate our work. To manage our source code, we used Subversion
+which is an extremely good tool for such a quick evolving project like
+EiffelRSS. Subversion allowed us to easily restructure our clusters
+and classes without losing the whole revision history.
+
+Most problems I encountered had to do with ISE Eiffel. I really
+enjoyed programming with Eiffel but the Eiffel library of ISE is very
+cumbersome:
+
+\begin{itemize}
+\item No real stream concept, e.g. input and output are no files
+\item No sortable data structures to implement sorting by different
+  criterias, e.g. sort a list of addresses according to requirements
+  by name, phone or city.
+\item Only very meagre network support, e.g. no HTTP 1.1 client/server
+  implementation
+\end{itemize}
+
+Fortunately ISE delivers Gobo with EiffelStudio.
+
+In conclusion, I think we have every reason to be proud of what we
+have achieved especially by considering the limited time we had
+available.
+
+\end{document}

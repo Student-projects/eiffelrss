@@ -1,0 +1,13 @@
+README
+======
+
+EiffelRSS is an Eiffel library to parse RSS. The goal is to provide
+the Eiffel development community with an easy to use and well
+structured API for RSS.
+  
+The distribution also contains a RSS newsfeed reader written with
+EiffelVision and EiffelRSS.
+
+EiffelRSS needs ISE Eiffel 5.5 and Gobo 3.3 (comes with ISE EiffelStudio 5.5).
+
+For more information see documentation in doc/.

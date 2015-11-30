@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<project name="test" default="help">
+
+	<description>
+		description: "Eiffel Ant file for EiffelRSS tests"
+		author: "Thomas Weibel"
+		date: "$Date: 2005-01-31 00:26:11 +0100 (lun., 31 janv. 2005) $"
+		revision: "$Rev: 249 $"
+	</description>
+
+	<target name="help">
+		<echo message="usage:"/>
+		<echo message="   geant test"/>
+		<echo message="   geant test_debug"/>
+		<echo message="   geant clean"/>
+		<echo message="   geant clobber"/>
+	</target>
+
+	<target name="test" depend="init">
+		<description>
+			Run Gobo tests with ISE Eiffel.
+		</description>
+
+		<set name="target" value="test_ise"/>
+		<set name="do_clean" value="true"/>
+		<geant target="do_all"/>
+	</target>
+
+	<target name="test_debug" depend="init">
+		<description>
+			Run Gobo tests with ISE Eiffel in debug mode.
+		</description>
+
+		<set name="target" value="test_debug_ise"/>
+		<set name="do_clean" value="true"/>
+		<geant target="do_all"/>
+	</target>
+
+	<target name="clean" depend="init">
+		<description>
+			Remove intermediary generated files.
+		</description>
+
+		<set name="target" value="clean"/>
+		<geant target="do_all"/>
+	</target>
+
+	<target name="clobber" depend="init">
+		<description>
+			Remove all generated files.
+		</description>
+
+		<set name="target" value="clobber"/>
+		<geant target="do_all"/>
+	</target>
+
+
+<!-- Implementation -->
+
+	<target name="init">
+		<!-- do nothing -->
+	</target>
+
+	<target name="do_all" depend="init">
+		<description>
+			Call 'geant' with the same target ${target}
+			in all subdirectories.
+		</description>
+
+		<geant file="build.eant" target="${target}" dir="adt"/>
+		<geant file="build.eant" target="clean" dir="adt" if="${do_clean}"/>
+
+		<geant file="build.eant" target="${target}" dir="fetch"/>
+		<geant file="build.eant" target="clean" dir="fetch" if="${do_clean}"/>
+
+		<geant file="build.eant" target="${target}" dir="logfile"/>
+		<geant file="build.eant" target="clean" dir="logfile" if="${do_clean}"/>
+
+		<geant file="build.eant" target="${target}" dir="properties"/>
+		<geant file="build.eant" target="clean" dir="properties" if="${do_clean}"/>
+
+		<geant file="build.eant" target="${target}" dir="syndication"/>
+		<geant file="build.eant" target="clean" dir="syndication" if="${do_clean}"/>
+	</target>
+
+</project>

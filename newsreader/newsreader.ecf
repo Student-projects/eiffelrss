@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-3-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-3-0 http://www.eiffel.com/developers/xml/configuration-1-3-0.xsd" name="newsreader" uuid="1FC72B22-B3BF-4765-9A8F-3E85EB430C14">
+	<target name="newsreader">
+		<root class="APPLICATION" feature="make_and_launch"/>
+		<option warning="true">
+			<assertions precondition="true" postcondition="true" check="true" loop="true"/>
+			<warning name="export_class_missing" enabled="false"/>
+			<warning name="old_verbatim_strings" enabled="false"/>
+			<warning name="syntax" enabled="false"/>
+			<warning name="vjrv" enabled="false"/>
+		</option>
+		<external_include location="$(ISE_EIFFEL)/library/event/Clib"/>
+		<external_object location="${ISE_EIFFEL}/C_library/libpng/libpng.a"/>
+		<external_object location="${ISE_EIFFEL}/C_library/zlib/libz.a"/>
+		<external_object location="$(ISE_EIFFEL)/library/net/spec/$(ISE_PLATFORM)/lib/libnet.a"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf">
+			<option>
+				<assertions precondition="true"/>
+			</option>
+		</library>
+		<library name="gobo" location="$ISE_LIBRARY\library\gobo\gobo.ecf"/>
+		<library name="net" location="$ISE_LIBRARY\library\net\net.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf">
+			<option>
+				<assertions precondition="true"/>
+			</option>
+		</library>
+		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2.ecf">
+			<option>
+				<assertions precondition="true"/>
+			</option>
+		</library>
+		<cluster name="eiffelrss" location="..\library\" readonly="true" recursive="true">
+			<file_rule>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+		<cluster name="newsreader" location=".\">
+			<cluster name="view" location="$|view\">
+				<cluster name="windowed" location="$|windowed\">
+					<cluster name="bars" location="$|bars\"/>
+					<cluster name="dialogs" location="$|dialogs\"/>
+					<cluster name="feed_representation" location="$|feed_representation\"/>
+				</cluster>
+				<cluster name="cl" location="$|cl\">
+					<cluster name="commands" location="$|commands\">
+						<cluster name="feed_context" location="$|feed_context\"/>
+					</cluster>
+				</cluster>
+			</cluster>
+		</cluster>
+	</target>
+</system>

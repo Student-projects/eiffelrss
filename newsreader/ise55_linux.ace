@@ -1,0 +1,91 @@
+system
+	"newsreader"
+
+root
+	APPLICATION: make_and_launch
+
+default
+	assertion (invariant)
+	assertion (loop)
+	assertion (require)
+	assertion (ensure)
+	assertion (check)
+	precompiled ("${ISE_EIFFEL}/precomp/spec/linux-glibc2.1/vision2")
+
+cluster
+	newsreader:		"."
+
+	view (newsreader):		"$/view"
+
+	windowed (view):		"$/windowed"
+
+	bars (windowed):		"$/bars"
+
+	dialogs (windowed):		"$/dialogs"
+
+	feed_representation (windowed):		"$/feed_representation"
+
+	cl (view):		"$/cl"
+
+	commands (cl):		"$/commands"
+
+	feed_context (commands):		"$/feed_context"
+
+	library eiffelrss:		"../library"
+		exclude
+			".svn"
+		end
+
+	library base:		"$ISE_EIFFEL/library/base"
+		exclude
+			"table_eiffel3"; "desc"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+	
+	library time:		"$ISE_EIFFEL/library/time"
+		exclude
+			"french"; "german"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+
+	library net:		"$ISE_EIFFEL/library/net"
+
+	library gobo:		"$ISE_EIFFEL/free_add_ons/gobo/library"
+		exclude
+			"other"; "ve"; "se"; "hact"; "expat"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+
+	library gel:		"$ISE_EIFFEL/library/gel"
+		default
+			assertion (no)
+		end
+
+	library vision2:		"${ISE_EIFFEL}/library/vision2"
+		exclude
+			"mswin"; "EIFGEN"; "tmp"; "temp"; "release"; "obsolete"; "CVS"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+
+external
+
+	include_path:
+		"$(ISE_EIFFEL)/library/event/Clib",
+		"${ISE_EIFFEL}/library/vision2/spec/include",
+		"${ISE_EIFFEL}/library/vision2/implementation/gtk/Clib `$ISE_EIFFEL/library/vision2/implementation/gtk/Clib/vision2-gtk-config --include_path`"
+
+	object:
+		"`$(ISE_EIFFEL)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --object`",
+		"${ISE_EIFFEL}/C_library/libpng/libpng.a",
+		"${ISE_EIFFEL}/C_library/zlib/libz.a",
+		"$(ISE_EIFFEL)/library/net/spec/$(ISE_PLATFORM)/lib/libnet.a"
+
+end

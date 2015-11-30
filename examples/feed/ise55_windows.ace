@@ -1,0 +1,42 @@
+system
+	"feed_example"
+
+root
+	FEED_EXAMPLE: make
+
+default
+	assertion (invariant)
+	assertion (loop)
+	assertion (require)
+	assertion (ensure)
+	assertion (check)
+	multithreaded (no)
+	console_application (no)
+
+cluster
+	root_cluster:		"."
+
+
+	library base:		"$ISE_EIFFEL\library\base"
+		exclude
+			"table_eiffel3"; "desc"; 
+		end
+
+	library time:		"$ISE_EIFFEL\library\time"
+		exclude
+			"german"; "french"; 
+		end
+	
+	library net:		"$ISE_EIFFEL\library\net"
+
+	library feed:	"..\..\library\syndication\feed"
+		exclude
+			".svn"
+		end
+
+	library adt:	"..\..\library\adt"
+		exclude
+			".svn"
+		end
+
+end

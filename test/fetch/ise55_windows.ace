@@ -1,0 +1,72 @@
+system
+
+	xfetch
+
+root
+
+	XFETCH: "make"
+
+default
+
+	address_expression (no)
+	array_optimization (no)
+	assertion (no)
+	check_vape (yes)
+	cls_compliant (yes)
+	console_application (yes)
+	dead_code_removal (yes)
+	debug (no)
+	dotnet_naming_convention (no)
+	dynamic_runtime (no)
+	exception_trace (no)
+	il_verifiable (yes)
+	inlining (no)
+	inlining_size ("4")
+	line_generation (no)
+	msil_generation (no)
+	multithreaded (no)
+	profile (no)
+	msil_generation_type ("exe")
+	trace (no)
+
+cluster
+
+	xfetch: "."
+	xfetch_testgen: "TESTGEN"
+
+	library eiffelrss:		"..\..\library"
+		exclude
+			".svn"
+		end
+
+	library base:		"$ISE_EIFFEL\library\base"
+		exclude
+			"table_eiffel3"; "desc"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+
+	library net:		"$ISE_EIFFEL\library\net"
+	
+	library time:		"$ISE_EIFFEL\library\time"
+		exclude
+			"french"; "german"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+
+	library gobo:		"$ISE_EIFFEL\free_add_ons\gobo\library"
+		exclude
+			"other"; "ve"; "se"; "hact"; "expat"; 
+		default
+			assertion (no)
+			assertion (require)
+		end
+
+external
+	object:
+		"$(ISE_EIFFEL)\library\net\spec\$(ISE_C_COMPILER)\lib\net.lib"
+
+end

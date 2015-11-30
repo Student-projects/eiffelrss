@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent a persistent set of properties."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -6,27 +6,28 @@ indexing
 
 class
 	PROPERTIES
-	
+
 inherit
+
 	HASH_TABLE [STRING, STRING]
-	redefine
-		make
-	end
-	
+		redefine
+			make
+		end
+
 create
 	make, make_defaults
-	
+
 feature -- Initialization
 
-	make (n: INTEGER) is
+	make (n: INTEGER)
 			-- Create an empty property table of initial size `n'
 		do
 			Precursor (n)
 			defaults := Void
 			compare_objects
 		end
-		
-	make_defaults (n: INTEGER; def: PROPERTIES) is
+
+	make_defaults (n: INTEGER; def: PROPERTIES)
 			-- Create a property table with `d' as default values and initial size `n'
 		require
 			defaults_not_void: def /= Void
@@ -34,28 +35,27 @@ feature -- Initialization
 			make (n)
 			defaults := def
 		end
-		
+
 feature -- Access
 
-	get, infix "&" (key: STRING): STRING is
+	get, infix "&" (key: STRING): STRING
 			-- Item associated with `key', if present
 			-- otherwise default value from `defaults'
 		require else
 			key_not_void: key /= Void
 		do
 			Result := item (key)
-			
-			-- If there is no entry with key `key' in the properties list, and `defaults'
-			-- is defined, lookup `default' for key `key'
+
+				-- If there is no entry with key `key' in the properties list, and `defaults'
+				-- is defined, lookup `default' for key `key'
 			if Result = Void and defaults /= Void then
 				Result := defaults.get (key)
 			end
 		ensure
-			default_value_if_not_present:
-				defaults /= Void and then (not (has (key))) implies (Result = defaults.get (key))
+			default_value_if_not_present: defaults /= Void and then (not (has (key))) implies (Result = defaults.get (key))
 		end
 
-	get_default (key: STRING; def: STRING): STRING is
+	get_default (key: STRING; def: STRING): STRING
 			-- Item associated with `key', if present
 			-- otherwise default value `default'
 		require
@@ -63,20 +63,19 @@ feature -- Access
 			default_not_void: def /= Void
 		do
 			Result := get (key)
-			
-			-- If there is no entry with key `key' in the properties list, return
-			-- `default'
+
+				-- If there is no entry with key `key' in the properties list, return
+				-- `default'
 			if Result = Void then
 				Result := def
 			end
 		ensure then
-			default_value_if_not_present:
-				(get (key) = Void) implies (Result = def)
+			default_value_if_not_present: (get (key) = Void) implies (Result = def)
 		end
-		
+
 feature -- Persistence
 
-	load (input: FILE) is
+	load (input: FILE)
 			-- Reads a property list from  the file `input'
 		require
 			input_not_void: input /= Void
@@ -85,7 +84,7 @@ feature -- Persistence
 			parse (input)
 		end
 
-	store (output: FILE; comments: STRING) is
+	store (output: FILE; comments: STRING)
 			-- Writes the property list to the file `output' and prepends `comment' and
 			-- the actual date as comments
 		require
@@ -101,9 +100,7 @@ feature -- Persistence
 			end
 			create now.make_now
 			writeln (output, "#" + now.out)
-
 			old_iteration_position := iteration_position
-			
 			from
 				start
 			until
@@ -111,24 +108,20 @@ feature -- Persistence
 			loop
 				key := key_for_iteration
 				value := item_for_iteration
-				
 				key := store_convert (key, True)
-				
-				-- No need to escape embedded and trailing spaces for values
+
+					-- No need to escape embedded and trailing spaces for values
 				value := store_convert (value, False)
-				
 				writeln (output, key + "=" + value)
 				forth
 			end
-
 			iteration_position := old_iteration_position
-
 			output.flush
 		end
-		
+
 feature -- Debug
 
-	list: STRING is
+	list: STRING
 			-- Returns a string representation of the property list.
 		local
 			key, value: STRING
@@ -136,9 +129,7 @@ feature -- Debug
 		do
 			Result := "Listing properties:%N"
 			Result := Result + "-------------------%N"
-			
 			old_iteration_position := iteration_position
-			
 			from
 				start
 			until
@@ -146,18 +137,15 @@ feature -- Debug
 			loop
 				key := key_for_iteration
 				value := item_for_iteration
-				
-				-- Crop long values
+
+					-- Crop long values
 				if value.count > 40 then
 					value := value.substring (1, 37) + "..."
 				end
-				
 				Result := Result + key + "=" + value + "%N"
 				forth
 			end
-			
 			iteration_position := old_iteration_position
-			
 		end
 
 feature {PROPERTIES} -- Arguments
@@ -167,7 +155,7 @@ feature {PROPERTIES} -- Arguments
 
 feature {NONE} -- Implementation
 
-	writeln (output: FILE; s: STRING) is
+	writeln (output: FILE; s: STRING)
 			-- Convenience feature used to store a property list
 		require
 			output_not_void: output /= Void
@@ -176,8 +164,8 @@ feature {NONE} -- Implementation
 			output.put_string (s)
 			output.put_new_line
 		end
-		
-	load_convert (s: STRING): STRING is
+
+	load_convert (s: STRING): STRING
 			-- Changes special saved characters to their original form
 		require
 			string_not_void: s /= Void
@@ -195,8 +183,7 @@ feature {NONE} -- Implementation
 				if char = '\' then
 					i := i + 1
 					char := s.item (i)
-					inspect
-						char
+					inspect char
 					when 'T' then
 						Result.append_character ('%T')
 					when 'R' then
@@ -214,12 +201,11 @@ feature {NONE} -- Implementation
 				else
 					Result.append_character (char)
 				end
-				
 				i := i + 1
 			end
 		end
-		
-	store_convert (s: STRING; escape_space: BOOLEAN): STRING is
+
+	store_convert (s: STRING; escape_space: BOOLEAN): STRING
 			-- Escapes special characters with a preceding slash
 		require
 			string_not_void: s /= Void
@@ -234,9 +220,7 @@ feature {NONE} -- Implementation
 				i > s.count
 			loop
 				char := s.item (i)
-				
-				inspect
-					char
+				inspect char
 				when ' ' then
 					if i = 0 or escape_space then
 						Result.append_character ('\')
@@ -256,12 +240,11 @@ feature {NONE} -- Implementation
 				else
 					Result.append_character (char)
 				end
-				
 				i := i + 1
 			end
 		end
-		
-	parse (input: FILE) is
+
+	parse (input: FILE)
 			-- Parses a logical line of a stored property list into key and value
 			-- and adds them to this property list
 		require
@@ -278,29 +261,25 @@ feature {NONE} -- Implementation
 			loop
 				input.read_line
 				create line.make (input.last_string, True)
-				
-				if
-					line.is_continuation_line
-				then
+				if line.is_continuation_line then
 					from
-						-- Nothing
+							-- Nothing
 					until
-						(not line.is_continuation_line) or
-						input.after
+						(not line.is_continuation_line) or input.after
 					loop
 						input.read_line
 						line.append (input.last_string, True)
 					end
 				end
-				
-				-- Parse the logical line and put key and value into the property list
+
+					-- Parse the logical line and put key and value into the property list
 				if line.is_parsable then
 					line.parse
 					key := load_convert (line.key)
 					value := load_convert (line.value)
 					put (value, key)
 				end
-			end			
+			end
 		end
 
 end -- class PROPERTIES

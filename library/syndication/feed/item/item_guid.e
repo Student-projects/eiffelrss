@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent an item guid sub-element."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -12,7 +12,7 @@ create
 	
 feature -- Initialization
 
-	make (a_guid: STRING) is
+	make (a_guid: STRING)
 			-- Create an item guid with `is_perma_link' set to False
 		require
 			non_empty_guid: a_guid /= Void and then not a_guid.is_empty
@@ -21,7 +21,7 @@ feature -- Initialization
 			set_perma_link (False)
 		end
 		
-	make_perma_link (a_guid: STRING) is
+	make_perma_link (a_guid: STRING)
 			-- Create an item guid with `is_perma_link' set to True
 		require
 			non_empty_guid: a_guid /= Void and then not a_guid.is_empty
@@ -40,7 +40,7 @@ feature -- Access
 
 feature -- Setter
 
-	set_guid (a_guid: STRING) is
+	set_guid (a_guid: STRING)
 			-- Set guid to `a_guid'
 		require
 			non_empty_guid: a_guid /= Void and then not a_guid.is_empty
@@ -50,7 +50,7 @@ feature -- Setter
 			guid_set: guid = a_guid
 		end
 		
-	set_perma_link (value: BOOLEAN) is
+	set_perma_link (value: BOOLEAN)
 			-- Set is_perma_link to `value'
 		do
 			is_perma_link := value
@@ -60,7 +60,7 @@ feature -- Setter
 
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of guid
 			-- This feature is especially useful for debugging
 		do

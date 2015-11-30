@@ -9,32 +9,11 @@
 			<warning name="syntax" enabled="false"/>
 			<warning name="vjrv" enabled="false"/>
 		</option>
-		<external_include location="$(ISE_EIFFEL)/library/event/Clib"/>
-		<external_object location="${ISE_EIFFEL}/C_library/libpng/libpng.a"/>
-		<external_object location="${ISE_EIFFEL}/C_library/zlib/libz.a"/>
-		<external_object location="$(ISE_EIFFEL)/library/net/spec/$(ISE_PLATFORM)/lib/libnet.a"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf">
-			<option>
-				<assertions precondition="true"/>
-			</option>
-		</library>
-		<library name="gobo" location="$ISE_LIBRARY\library\gobo\gobo.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="net" location="$ISE_LIBRARY\library\net\net.ecf"/>
-		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf">
-			<option>
-				<assertions precondition="true"/>
-			</option>
-		</library>
-		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2.ecf">
-			<option>
-				<assertions precondition="true"/>
-			</option>
-		</library>
-		<cluster name="eiffelrss" location="..\library\" readonly="true" recursive="true">
-			<file_rule>
-				<exclude>/.svn$</exclude>
-			</file_rule>
-		</cluster>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
+		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2.ecf"/>
+		<library name="eiffelrss" location="..\library\rss.ecf" readonly="false"/>
 		<cluster name="newsreader" location=".\">
 			<cluster name="view" location="$|view\">
 				<cluster name="windowed" location="$|windowed\">

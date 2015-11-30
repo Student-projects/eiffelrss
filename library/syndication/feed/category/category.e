@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent a channel or item category."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 09:06:57 +0100 (lun., 31 janv. 2005) $"
@@ -9,16 +9,16 @@ class
 
 create
 	make, make_title, make_title_domain
-	
+
 feature -- Initialization
 
-	make is
+	make
 			-- Create a category with title `[unnamed category]')
 		do
 			make_title ("[unnamed category]")
 		end
-		
-	make_title (a_title: STRING) is
+
+	make_title (a_title: STRING)
 			-- Create a category with title `a_title'
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -26,8 +26,8 @@ feature -- Initialization
 			title := a_title
 			domain := Void
 		end
-		
-	make_title_domain (a_title: STRING; a_domain: URL) is
+
+	make_title_domain (a_title: STRING; a_domain: URL)
 			-- Create a category with title `a_title' and domain `a_domain'
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -41,13 +41,13 @@ feature -- Access
 
 	title: STRING
 			-- Category title
-			
-	domain: URL
+
+	domain: detachable URL
 			-- Category domain
-			
+
 feature -- Setter
 
-	set_title (a_title: STRING) is
+	set_title (a_title: STRING)
 			-- Set title to to `a_title'
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -56,8 +56,8 @@ feature -- Setter
 		ensure
 			title_set: title = a_title
 		end
-		
-	set_domain (url: URL) is
+
+	set_domain (url: URL)
 			-- Set domain to to `url'
 		require
 			non_void_domain: url /= Void
@@ -66,27 +66,27 @@ feature -- Setter
 		ensure
 			domain_set: domain = url
 		end
-		
+
 feature -- Status
 
-	has_domain: BOOLEAN is
+	has_domain: BOOLEAN
 			-- Is `domain' set?
 		do
 			Result := domain /= Void
 		end
-		
+
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of category
 			-- This feature is especially useful for debugging
 		do
 			Result := title
-			
-			if has_domain then
-				Result.append (" (" + domain.location + ")")
+
+			if has_domain and then attached domain as d then
+				Result.append (" (" + d.location + ")")
 			end
-			
+
 			Result.append ("%N")
 		end
 

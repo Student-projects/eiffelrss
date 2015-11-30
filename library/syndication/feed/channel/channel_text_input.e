@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent a channel textInput sub-element."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 09:06:57 +0100 (lun., 31 janv. 2005) $"
@@ -12,7 +12,7 @@ create
 	
 feature -- Initialization
 
-	make (a_title: STRING; a_description: STRING; a_name: STRING; a_link: URL) is
+	make (a_title: STRING; a_description: STRING; a_name: STRING; a_link: URL)
 			-- Create a channel text input with title, description, name and link
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -42,7 +42,7 @@ feature -- Access
 
 feature -- Setter
 
-	set_title (a_title: STRING) is
+	set_title (a_title: STRING)
 			-- Set title to`a_title'
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -52,7 +52,7 @@ feature -- Setter
 			title_set: title = a_title
 		end
 		
-	set_description (a_description: STRING) is
+	set_description (a_description: STRING)
 			-- Set description to`a_description'
 		require
 			non_empty_description: a_description /= Void and then not a_description.is_empty
@@ -62,7 +62,7 @@ feature -- Setter
 			description_set: description = a_description
 		end
 		
-	set_name (a_name: STRING) is
+	set_name (a_name: STRING)
 			-- Set name to`a_name'
 		require
 			non_empty_name: a_name /= Void and then not a_name.is_empty
@@ -72,7 +72,7 @@ feature -- Setter
 			name_set: name = a_name
 		end
 		
-	set_link (a_link: URL) is
+	set_link (a_link: URL)
 			-- Set link to`a_link'
 		require
 			non_void_link: a_link /= Void
@@ -84,7 +84,7 @@ feature -- Setter
 
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of text input
 			-- This feature is especially useful for debugging
 		do

@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent an item source sub-element."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -12,7 +12,7 @@ create
 
 feature -- Initialization
 
-	make (a_name: STRING; a_url: URL) is
+	make (a_name: STRING; a_url: URL)
 			-- Create an item source
 		require
 			non_empty_name: a_name /= Void and then not a_name.is_empty
@@ -32,7 +32,7 @@ feature -- Access
 
 feature -- Setter
 
-	set_name (a_name: STRING) is
+	set_name (a_name: STRING)
 			-- Set name to `a_name'
 		require
 			non_empty_name: a_name /= Void and then not a_name.is_empty
@@ -42,7 +42,7 @@ feature -- Setter
 			name_set: name = a_name
 		end
 		
-	set_url (a_url: URL) is
+	set_url (a_url: URL)
 			-- Set url to `a_url'
 		require
 			non_void_url: a_url /= Void
@@ -54,7 +54,7 @@ feature -- Setter
 		
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of source
 			-- This feature is especially useful for debugging
 		do

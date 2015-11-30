@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Sort category by title."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -12,7 +12,7 @@ inherit
 
 feature -- Criterion
 
-	ordered (first, second: G): BOOLEAN is
+	ordered (first, second: G): BOOLEAN
 			-- Are `first' and `second' ordered (true if `first' < `second')
 		require else
 			first_non_void: first /= Void

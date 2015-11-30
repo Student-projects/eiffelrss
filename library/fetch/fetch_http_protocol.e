@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Implementation of HTTP 1.1"
 	author: ""
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -6,20 +6,20 @@ indexing
 
 class
 	FETCH_HTTP_PROTOCOL
-	
+
 inherit
 	HTTP_PROTOCOL
-	
-redefine
-	initiate_transfer,
-	get_headers
-	end
-	
+		redefine
+			initiate_transfer,
+			get_headers
+		end
+
 create
 	make
 
 feature
-		initiate_transfer is
+
+	initiate_transfer
 			-- Initiate transfer.
 		local
 			str: STRING
@@ -38,9 +38,9 @@ feature
 			str.append (Http_end_of_command)
 			if not error then
 				main_socket.put_string (str)
-					debug
-						Io.error.put_string (str)
-					end
+				debug
+					Io.error.put_string (str)
+				end
 				get_headers
 				transfer_initiated := True
 				is_packet_pending := True
@@ -48,8 +48,8 @@ feature
 		rescue
 			error_code := Transfer_failed
 		end
-		
-	get_headers is
+
+	get_headers
 			-- Get HTTP headers
 		local
 			str: STRING
@@ -63,20 +63,23 @@ feature
 				if not error then
 					main_socket.read_line
 					str := main_socket.last_string.twin
-						debug
-							Io.error.put_string (str)
-							Io.error.put_new_line
-						end
-					if not str.is_empty then headers.extend (str) end
+					debug
+						Io.error.put_string (str)
+						Io.error.put_new_line
+					end
+					if not str.is_empty then
+						headers.extend (str)
+					end
 				end
 			end
 			check_error
-			if not error then 
+			if not error then
 				check_socket (main_socket, Read_only)
-				if not error then main_socket.read_line end
-				get_content_length 
+				if not error then
+					main_socket.read_line
+				end
+				get_content_length
 			end
 		end
-
 
 end -- class FETCH_HTTP_PROTOCOL

@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class which represents a log file"
 	author: "Michael Käser"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -14,7 +14,7 @@ create
 	make_filename_threshold, make_filename
 
 feature -- Initialization
-	make_filename_threshold (a_filename: STRING; a_threshold: INTEGER) is
+	make_filename_threshold (a_filename: STRING; a_threshold: INTEGER)
 			-- Create logfile object with a_filename as file name and a_threshold as output threshold
 		require else
 			valid_threshold: a_threshold >= 0
@@ -28,7 +28,7 @@ feature -- Initialization
 			file_is_open: is_open_append
 		end
 
-	make_filename (a_filename: STRING) is
+	make_filename (a_filename: STRING)
 			-- Create logfile object with a_filename as file name
 		require else
 			valid_filename: a_filename /= Void
@@ -41,7 +41,7 @@ feature -- Initialization
 		
 feature -- Basic operations
 		
-	log_message (a_message: STRING; a_priority: INTEGER) is
+	log_message (a_message: STRING; a_priority: INTEGER)
 			-- Log the message to the logfile if a_priority is equal or greater than the threshold
 		require
 			valid_priority: a_priority >= 0
@@ -87,7 +87,7 @@ feature -- Basic operations
 			(a_priority <= output_threshold) implies (messages_logged = old messages_logged + 1)
 		end
 	
-	set_threshold (a_threshold: INTEGER) is
+	set_threshold (a_threshold: INTEGER)
 			-- Set the output threshold to a_threshold
 		require
 			valid_threshold: a_threshold >= 0
@@ -103,7 +103,7 @@ feature -- Access
 	messages_logged: INTEGER
 		-- The number of messages which got logged
 		
-	Developer, Info, Notice, Warning, Error, Critical, Alert, Emerge: INTEGER is unique
+	Developer, Info, Notice, Warning, Error, Critical, Alert, Emerge: INTEGER = unique
 		-- Predefined prioritys
 
 invariant

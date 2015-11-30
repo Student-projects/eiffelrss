@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent skip hours (integers from 0 to 23)."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -6,23 +6,28 @@ indexing
 
 class
 	CHANNEL_SKIP_HOURS
-	
+
 inherit
 	TWO_WAY_SORTED_SET[INTEGER]
 		redefine
 			extend, put
 		end
+
 	EXCEPTIONS
 		undefine
-			is_equal
+			is_equal,
+			copy
 		end
-		
+
 create
 	make
 
+create {TWO_WAY_LIST}
+	make_sublist
+
 feature -- Element change
 
-	extend, put (v: INTEGER) is
+	extend, put (v: INTEGER)
 			-- Ensure that structure includes `v'.
 		local
 			found: BOOLEAN
@@ -30,7 +35,7 @@ feature -- Element change
 			if v < 0 or v > 23 then
 				raise ("CHANNEL_SKIP_HOURS: Item out of bound")
 			end
-			
+
 			search_after (v)
 			if after or else not item.is_equal (v) then
 				put_left (v)

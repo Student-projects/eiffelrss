@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent a channel image sub-element."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 09:06:57 +0100 (lun., 31 janv. 2005) $"
@@ -9,10 +9,10 @@ class
 
 create
 	make
-	
+
 feature -- Initialization
 
-	make (a_url: URL; a_title: STRING; a_link: URL) is
+	make (a_url: URL; a_title: STRING; a_link: URL)
 			-- Create a channel image with URL, title, and link
 		require
 			non_void_url: a_url /= Void
@@ -23,35 +23,35 @@ feature -- Initialization
 			set_title (a_title)
 			set_link (a_link)
 		end
-		
+
 feature -- Constants
 
-	Default_width: INTEGER is 88
+	Default_width: INTEGER = 88
 			-- Default width of the image
-			
-	Max_width: INTEGER is 144
+
+	Max_width: INTEGER = 144
 			-- Maximum width of the image
-		
+
 feature -- Access
 
 	url: URL
 			-- URL of the image
-	
+
 	title: STRING
 			-- Title of the image
-			
+
 	link: URL
 			-- Link of the image
-			
+
 	width, height: INTEGER
 			-- Width and height of the image
-			
-	description: STRING
+
+	description: detachable STRING
 			-- Description of the image
 
 feature -- Setter
 
-	set_url (a_url: URL) is
+	set_url (a_url: URL)
 			-- Set url to`a_url'
 		require
 			non_void_url: a_url /= Void
@@ -60,8 +60,8 @@ feature -- Setter
 		ensure
 			url_set: url = a_url
 		end
-		
-	set_title (a_title: STRING) is
+
+	set_title (a_title: STRING)
 			-- Set title to`a_title'
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -70,8 +70,8 @@ feature -- Setter
 		ensure
 			title_set: title = a_title
 		end
-		
-	set_link (a_link: URL) is
+
+	set_link (a_link: URL)
 			-- Set link to`a_link'
 		require
 			non_void_link: a_link /= Void
@@ -80,8 +80,8 @@ feature -- Setter
 		ensure
 			link_set: link = a_link
 		end
-		
-	set_width (a_width: INTEGER) is
+
+	set_width (a_width: INTEGER)
 			-- Set width to`a_width'
 		require
 			width_positive: a_width > 0
@@ -91,8 +91,8 @@ feature -- Setter
 		ensure
 			width_set:  width = a_width
 		end
-		
-	set_height (a_height: INTEGER) is
+
+	set_height (a_height: INTEGER)
 			-- Set heigh to`a_heigh'
 		require
 			height_positive: a_height > 0
@@ -101,8 +101,8 @@ feature -- Setter
 		ensure
 			height_set:  height = a_height
 		end
-		
-	set_description (a_description: STRING) is
+
+	set_description (a_description: STRING)
 			-- Set  to`a_description'
 		require
 			non_empty_description: a_description /= Void and then not a_description.is_empty
@@ -111,45 +111,45 @@ feature -- Setter
 		ensure
 			description_set:  description = a_description
 		end
-		
+
 feature -- Status
 
-	has_width: BOOLEAN is
+	has_width: BOOLEAN
 			-- Is `width' set?
 		do
 			Result := width > 0
 		end
-		
-	has_height: BOOLEAN is
+
+	has_height: BOOLEAN
 			-- Is `height' set?
 		do
 			Result := height > 0
 		end
 
-	has_description: BOOLEAN is
+	has_description: BOOLEAN
 			-- Is `description' set and non-empty?
 		do
-			Result := description /= Void and then not description.is_empty
+			Result := attached description as d and then not d.is_empty
 		end
 
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of image
 			-- This feature is especially useful for debugging
 		do
 			Result := "* URL: " + url.location + "%N* Title: " + title + "%N* Link: " + link.location + "%N"
-			
+
 			if has_width then
 				Result.append ("* Width: " + width.out + "%N")
 			end
-			
+
 			if has_height then
 				Result.append ("* Height: " + height.out + "%N")
 			end
-			
-			if has_description then
-				Result.append ("* Description: " + description + "%N")
+
+			if has_description and attached description as d then
+				Result.append ("* Description: " + d + "%N")
 			end
 		end
 

@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Sort feed by title."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -6,21 +6,28 @@ indexing
 
 class
 	FEED_SORT_BY_LAST_UPDATED[G -> FEED]
-	
+
 inherit
 	ORDER_RELATION[G]
 
 feature -- Criterion
 
-	ordered (first, second: G): BOOLEAN is
+	ordered (first, second: G): BOOLEAN
 			-- Are `first' and `second' ordered (true if `first' < `second')
+		local
+			l_first_last_updated,
+			l_second_last_updated: like {FEED}.last_updated
 		do
-			if first.last_updated = Void then
+			l_first_last_updated := first.last_updated
+			if l_first_last_updated = Void then
 				Result := False
-			elseif second.last_updated = Void then
-				Result := True
 			else
-				Result := first.last_updated < second.last_updated
+				l_second_last_updated := second.last_updated
+				if l_second_last_updated = Void then
+					Result := True
+				else
+					Result := l_first_last_updated < l_second_last_updated
+				end
 			end
 		end
 

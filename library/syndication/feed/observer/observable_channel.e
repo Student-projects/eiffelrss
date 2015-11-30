@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Deferred class which defines an observable channel interface."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -14,7 +14,7 @@ feature -- Access
 
 feature -- Setter
 
-	set_observers (observer_list: like observers) is
+	set_observers (observer_list: like observers)
 			-- List of subscribed observers
 		require
 			non_void_observers: observer_list /= Void
@@ -26,7 +26,7 @@ feature -- Setter
 
 feature -- Status
 
-	has_observers: BOOLEAN is
+	has_observers: BOOLEAN
 			-- Is `observers' set?
 		do
 			Result := observers.count > 0
@@ -34,7 +34,7 @@ feature -- Status
 
 feature -- Basic operations
 
-	add_observer (an_observer: CHANNEL_OBSERVER) is
+	add_observer (an_observer: CHANNEL_OBSERVER)
 			-- Add an observer
 		require
 			non_void_observer: an_observer /= Void
@@ -45,7 +45,7 @@ feature -- Basic operations
 			observer_added: observers.i_th (observers.count) = an_observer			
 		end
 		
-	remove_observer (an_observer: CHANNEL_OBSERVER) is
+	remove_observer (an_observer: CHANNEL_OBSERVER)
 			-- Remove an observer
 		require
 			non_void_observer: an_observer /= Void		
@@ -56,7 +56,7 @@ feature -- Basic operations
 
 feature{CHANNEL_OBSERVABLE} -- Observable
 
-	notify_item_added (an_item: ITEM) is
+	notify_item_added (an_item: ITEM)
 			-- Notify observers that an item has been added
 		require
 			non_void_item: an_item /= Void
@@ -71,7 +71,7 @@ feature{CHANNEL_OBSERVABLE} -- Observable
 			end
 		end
 		
-	notify_channel_updated (channel: CHANNEL) is
+	notify_channel_updated (channel: CHANNEL)
 			-- Notify observers that the channel has been updated
 		require
 			non_void_channel: channel /= Void
@@ -88,7 +88,7 @@ feature{CHANNEL_OBSERVABLE} -- Observable
 
 feature {CHANNEL_OBSERVABLE} -- Initialize `observers'
 
-	initialize_observers is
+	initialize_observers
 			-- Initialize `observers'
 		do
 			create observers.make

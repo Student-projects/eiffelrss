@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent skip days."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -6,23 +6,28 @@ indexing
 
 class
 	CHANNEL_SKIP_DAYS
-	
+
 inherit
 	TWO_WAY_SORTED_SET[STRING]
 		redefine
 			extend, put, make
 		end
+
 	EXCEPTIONS
 		undefine
-			is_equal
+			is_equal,
+			copy
 		end
-		
+
 create
 	make
 
+create {TWO_WAY_LIST}
+	make_sublist
+
 feature -- Initialization
 
-	make is
+	make
 			-- Create an empty list.
 		do
 			Precursor {TWO_WAY_SORTED_SET}
@@ -31,14 +36,14 @@ feature -- Initialization
 
 feature -- Element change
 
-	extend, put (v: STRING) is
+	extend, put (v: STRING)
 			-- Ensure that structure includes `v'.
 		local
 			found: BOOLEAN
 			str: STRING
 		do
 			v.to_lower
-			if 
+			if
 				not (
 					v.is_equal ("monday") or
 					v.is_equal ("tuesday") or
@@ -51,12 +56,12 @@ feature -- Element change
 			then
 				raise ("CHANNEL_SKIP_DAYS: Item out of bound")
 			end
-			
+
 			str := v.item (1).out
 			str.to_upper
 			v.remove (1)
 			v.prepend (str)
-			
+
 			search_after (v)
 			if after or else not item.is_equal (v) then
 				put_left (v)

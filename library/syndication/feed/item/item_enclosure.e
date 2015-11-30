@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent an item enclosure sub-element."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -12,7 +12,7 @@ create
 
 feature -- Initialization
 
-	make (a_url: URL; a_length: INTEGER; a_type: STRING) is
+	make (a_url: URL; a_length: INTEGER; a_type: STRING)
 			-- Create an item enclosure
 		require
 			non_void_url: a_url /= Void
@@ -37,7 +37,7 @@ feature -- Access
 
 feature -- Setter
 
-	set_url (a_url: URL) is
+	set_url (a_url: URL)
 			-- Set the URL to `url'
 		require
 			non_void_url: a_url /= Void
@@ -47,7 +47,7 @@ feature -- Setter
 			url_set: url = a_url
 		end
 		
-	set_length (a_length: INTEGER) is
+	set_length (a_length: INTEGER)
 			-- Set the length to `a_length'
 		require
 			positive_length: a_length >= 0
@@ -57,7 +57,7 @@ feature -- Setter
 			length_set: length = a_length
 		end
 		
-	set_type (a_type: STRING) is
+	set_type (a_type: STRING)
 			-- Set the MIME type to `a_type'
 		require
 			non_empty_type: a_type /= Void and then not a_type.is_empty
@@ -69,7 +69,7 @@ feature -- Setter
 		
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of enclosure
 			-- This feature is especially useful for debugging
 		do

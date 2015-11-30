@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent a feed channel."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 09:06:57 +0100 (lun., 31 janv. 2005) $"
@@ -6,17 +6,17 @@ indexing
 
 class
 	CHANNEL
-	
+
 inherit
 	CATEGORIES
 	OBSERVABLE_CHANNEL
-	
+
 create
 	make
-	
+
 feature -- Initialization
 
-	make (a_title: STRING; a_link: URL; a_description: STRING) is
+	make (a_title: STRING; a_link: URL; a_description: STRING)
 			--  Create a channel with title, link and description
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -28,52 +28,52 @@ feature -- Initialization
 			set_description (a_description)
 			initialization
 		end
-		
+
 feature -- Access
 
 	title: STRING
 			-- Channel title
-	
+
 	link: URL
 			-- Channel link
-			
+
 	description: STRING
 			-- Channel description
-			
-	language: STRING
+
+	language: detachable STRING
 			-- Channel language
-			
-	copyright: STRING
+
+	copyright: detachable STRING
 			-- Channel copyright
-	
-	managing_editor: STRING
+
+	managing_editor: detachable STRING
 			-- Channel managing editor
-	
-	web_master: STRING
+
+	web_master: detachable STRING
 			-- Channel web master
-	
-	pub_date: DATE_TIME
+
+	pub_date: detachable DATE_TIME
 			-- Channel pulication date
-	
-	last_build_date: DATE_TIME
+
+	last_build_date: detachable DATE_TIME
 			-- Channel last build date
-	
-	feed_generator: STRING
+
+	feed_generator: detachable STRING
 			-- Channel feed generator
-	
-	docs: URL
+
+	docs: detachable URL
 			-- Channel docs
-	
-	cloud: CHANNEL_CLOUD
+
+	cloud: detachable CHANNEL_CLOUD
 			-- Channel cloud
-	
+
 	ttl: INTEGER
 			-- Channel time to live in minutes
-	
-	image: CHANNEL_IMAGE
+
+	image: detachable CHANNEL_IMAGE
 			-- Channel image
-	
-	text_input: CHANNEL_TEXT_INPUT
+
+	text_input: detachable CHANNEL_TEXT_INPUT
 			-- Channel text input
 
 	skip_hours: CHANNEL_SKIP_HOURS
@@ -82,12 +82,12 @@ feature -- Access
 	skip_days: CHANNEL_SKIP_DAYS
 			-- Channel skip days
 
-	items: SORTABLE_TWO_WAY_LIST[ITEM]
+	items: SORTABLE_TWO_WAY_LIST [ITEM]
 			-- Channel items
-			
+
 feature -- Access (RSS 0.91)
 
-	rating: STRING
+	rating: detachable STRING
 			-- Channel rating
 
 feature -- Access (RSS 1.0)
@@ -95,17 +95,17 @@ feature -- Access (RSS 1.0)
 	items_toc: TWO_WAY_LIST[URL]
 			-- Channel items table of content
 
-	textinput: URL
+	textinput: detachable URL
 			-- Channel textinput URL
 
 feature -- Access (metadata)
-			
-	last_added_item: ITEM
+
+	last_added_item: detachable ITEM
 			-- The last added channel item
 
 -- [TODO]
 -- feature -- Access (modules)
--- The possiblity to add and remove modules to a channel would be very nice to 
+-- The possiblity to add and remove modules to a channel would be very nice to
 -- have, but doesn't have a very high priority at the moment
 --
 --	modules: HASH_TABLE[MODULE_DEF, STRING]
@@ -113,7 +113,7 @@ feature -- Access (metadata)
 
 feature -- Setter
 
-	set_title (a_title: STRING) is
+	set_title (a_title: STRING)
 			-- Set title to `a_title'
 		require
 			non_empty_title: a_title /= Void and then not a_title.is_empty
@@ -122,8 +122,8 @@ feature -- Setter
 		ensure
 			title_set: title = a_title
 		end
-	
-	set_link (a_link: URL) is
+
+	set_link (a_link: URL)
 			-- Set link to `a_link'
 		require
 			non_void_link: a_link /= Void
@@ -132,8 +132,8 @@ feature -- Setter
 		ensure
 			link_set: link = a_link
 		end
-			
-	set_description (a_description: STRING) is
+
+	set_description (a_description: STRING)
 			-- Set description to `a_description'
 		require
 			non_empty_description: a_description /= Void and then not a_description.is_empty
@@ -142,18 +142,18 @@ feature -- Setter
 		ensure
 			description_set: description = a_description
 		end
-			
-	set_language (a_language: STRING) is
+
+	set_language (a_language: STRING)
 			-- Channel language
 		require
 			non_empty_language: a_language /= Void and then not a_language.is_empty
 		do
-			language := a_language	
+			language := a_language
 		ensure
 			language_set: language = a_language
 		end
-		
-	set_copyright (a_copyright: STRING) is
+
+	set_copyright (a_copyright: STRING)
 			-- Channel copyright
 		require
 			non_empty_copyright: a_copyright /= Void and then not a_copyright.is_empty
@@ -162,8 +162,8 @@ feature -- Setter
 		ensure
 			copyright_set: copyright = a_copyright
 		end
-	
-	set_managing_editor (a_managing_editor: STRING) is
+
+	set_managing_editor (a_managing_editor: STRING)
 			-- Channel managing editor
 		require
 			non_empty_managing_editor: a_managing_editor /= Void and then not a_managing_editor.is_empty
@@ -172,8 +172,8 @@ feature -- Setter
 		ensure
 			managing_editor_set: managing_editor = a_managing_editor
 		end
-	
-	set_web_master (a_web_master: STRING) is
+
+	set_web_master (a_web_master: STRING)
 			-- Channel web master
 		require
 			non_empty_web_master: a_web_master /= Void and then not a_web_master.is_empty
@@ -183,7 +183,7 @@ feature -- Setter
 			web_master_set: web_master = a_web_master
 		end
 
-	set_pub_date (date: DATE_TIME) is
+	set_pub_date (date: DATE_TIME)
 			-- Channel pulication date
 		require
 			non_void_date: date /= Void
@@ -192,8 +192,8 @@ feature -- Setter
 		ensure
 			pub_date_set: pub_date = date
 		end
-	
-	set_last_build_date (date: DATE_TIME) is
+
+	set_last_build_date (date: DATE_TIME)
 			-- Channel last build date
 		require
 			non_void_last_build_date: date /= Void
@@ -202,8 +202,8 @@ feature -- Setter
 		ensure
 			last_build_date_set: last_build_date = date
 		end
-	
-	set_feed_generator (a_feed_generator: STRING) is
+
+	set_feed_generator (a_feed_generator: STRING)
 			-- Channel feed generator
 		require
 			non_empty_feed_generator: a_feed_generator /= Void and then not a_feed_generator.is_empty
@@ -212,8 +212,8 @@ feature -- Setter
 		ensure
 			feed_generator_set: feed_generator = a_feed_generator
 		end
-	
-	set_docs (url: URL) is
+
+	set_docs (url: URL)
 			-- Channel docs
 		require
 			non_void_docs: url /= Void
@@ -223,7 +223,7 @@ feature -- Setter
 			docs_set: docs = url
 		end
 
-	set_cloud (a_cloud: CHANNEL_CLOUD) is
+	set_cloud (a_cloud: CHANNEL_CLOUD)
 			-- Channel cloud
 		require
 			non_void_cloud: a_cloud /= Void
@@ -232,8 +232,8 @@ feature -- Setter
 		ensure
 			cloud_set: cloud = a_cloud
 		end
-	
-	set_ttl (a_ttl: INTEGER) is
+
+	set_ttl (a_ttl: INTEGER)
 			-- Channel time to live in minutes
 		require
 			ttl_period_positive: a_ttl >= 0
@@ -242,8 +242,8 @@ feature -- Setter
 		ensure
 			ttl_set: ttl = a_ttl
 		end
-	
-	set_image (an_image: CHANNEL_IMAGE) is
+
+	set_image (an_image: CHANNEL_IMAGE)
 			-- Channel image
 		require
 			non_void_image: an_image /= Void
@@ -252,19 +252,19 @@ feature -- Setter
 		ensure
 			image_set: image = an_image
 		end
-	
-	set_text_input (a_text_input: CHANNEL_TEXT_INPUT) is
+
+	set_text_input (a_text_input: CHANNEL_TEXT_INPUT)
 			-- Channel text input
 		require
 			non_void_text_input: a_text_input /= Void
 		do
 			text_input := a_text_input
-			set_textinput (text_input.link)
+			set_textinput (a_text_input.link)
 		ensure
 			text_input_set: text_input = a_text_input
 		end
-	
-	set_skip_hours (some_skip_hours: CHANNEL_SKIP_HOURS) is
+
+	set_skip_hours (some_skip_hours: CHANNEL_SKIP_HOURS)
 			-- Channel skip hours
 		require
 			non_void_skip_hours: some_skip_hours /= Void
@@ -274,7 +274,7 @@ feature -- Setter
 			skip_hours_set: skip_hours = some_skip_hours
 		end
 
-	set_skip_days (some_skip_days: CHANNEL_SKIP_DAYS) is
+	set_skip_days (some_skip_days: CHANNEL_SKIP_DAYS)
 			-- Channel skip days		
 		require
 			non_void_skip_days: some_skip_days /= Void
@@ -284,7 +284,7 @@ feature -- Setter
 			skip_days_set: skip_days = some_skip_days
 		end
 
-	set_items (item_list: like items) is
+	set_items (item_list: like items)
 			-- Channel items
 		require
 			non_void_items: item_list /= Void
@@ -296,7 +296,7 @@ feature -- Setter
 
 feature -- Setter (RSS 0.91)
 
-	set_rating (rating_value: STRING) is
+	set_rating (rating_value: STRING)
 			-- Channel rating
 		require
 			non_empty_rating: rating_value /= Void and then not rating_value.is_empty
@@ -308,7 +308,7 @@ feature -- Setter (RSS 0.91)
 
 feature -- Setter (RSS 1.0)
 
-	set_items_toc (item_toc_list: like items_toc) is
+	set_items_toc (item_toc_list: like items_toc)
 			-- Channel items table of content	
 		require
 			non_void_items_toc: item_toc_list /= Void
@@ -318,7 +318,7 @@ feature -- Setter (RSS 1.0)
 			items_toc_set: items_toc = item_toc_list
 		end
 
-	set_textinput (url: URL) is
+	set_textinput (url: URL)
 			-- Channel textinput URL
 		require
 			non_void_url: url /= Void
@@ -330,92 +330,92 @@ feature -- Setter (RSS 1.0)
 
 feature -- Status
 
-	has_language: BOOLEAN is
+	has_language: BOOLEAN
 			-- Is `language' set and non-empty?
 		do
-			Result := language /= Void and then not language.is_empty
+			Result := attached language as l_language and then not l_language.is_empty
 		end
-		
-	has_copyright: BOOLEAN is
+
+	has_copyright: BOOLEAN
 			-- Is `copyright' set and non-empty?
 		do
-			Result := copyright /= Void and then not copyright.is_empty
+			Result := attached copyright as l_copyright and then not l_copyright.is_empty
 		end
-		
-	has_managing_editor: BOOLEAN is
+
+	has_managing_editor: BOOLEAN
 			-- Is `managing_editor' set and non-empty?
 		do
-			Result := managing_editor /= Void and then not managing_editor.is_empty
+			Result := attached managing_editor as l_managing_editor and then not l_managing_editor.is_empty
 		end
-		
-	has_web_master: BOOLEAN is
+
+	has_web_master: BOOLEAN
 			-- Is `web_master' set and non-empty?
 		do
-			Result := web_master /= Void and then not web_master.is_empty
+			Result := attached web_master as l_web_master and then not l_web_master.is_empty
 		end
-		
-	has_pub_date: BOOLEAN is
+
+	has_pub_date: BOOLEAN
 			-- Is `pub_date' set?
 		do
 			Result := pub_date /= Void
 		end
-		
-	has_last_build_date: BOOLEAN is
+
+	has_last_build_date: BOOLEAN
 			-- Is `last_build_date' set?
 		do
 			Result := last_build_date /= Void
-		end	
-		
-	has_feed_generator: BOOLEAN is
+		end
+
+	has_feed_generator: BOOLEAN
 			-- Is `feed_generator' set and non-empty?
 		do
-			Result := feed_generator /= Void and then not feed_generator.is_empty
+			Result := attached feed_generator as l_feed_generator and then not l_feed_generator.is_empty
 		end
-		
-	has_docs: BOOLEAN is
+
+	has_docs: BOOLEAN
 			-- Is `docs' set?
 		do
 			Result := docs /= Void
 		end
-		
-	has_cloud: BOOLEAN is
+
+	has_cloud: BOOLEAN
 			-- Is `cloud' set?
 		do
 			Result := cloud /= Void
 		end
 
-	has_ttl: BOOLEAN is
+	has_ttl: BOOLEAN
 			-- Is `ttl' set?
 		do
 			Result := ttl > 0
 		end
-		
-	has_image: BOOLEAN is
+
+	has_image: BOOLEAN
 			-- Is `image' set?
 		do
 			Result := image /= Void
 		end
-		
-	has_text_input: BOOLEAN is
+
+	has_text_input: BOOLEAN
 			-- Is `text_input' set?
 		do
 			Result := text_input /= Void
 		end
-		
 
-	has_skip_hours: BOOLEAN is
+
+	has_skip_hours: BOOLEAN
 			-- Is `skip_hours' set?
 		do
 			Result := skip_hours.count > 0
 		end
 
-	has_skip_days: BOOLEAN is
+	has_skip_days: BOOLEAN
 			-- Is `skip_days' set?
 		do
 			Result := skip_days.count > 0
 		end
-		
-	has_items: BOOLEAN is
+
+	has_items: BOOLEAN
 			-- Is `items' set?
 		do
 			Result := items.count > 0
@@ -423,21 +423,21 @@ feature -- Status
 
 feature -- Status (RSS 0.91)
 
-	has_rating: BOOLEAN is
+	has_rating: BOOLEAN
 			-- Is `rating' set and non-empty?
 		do
-			Result := rating /= Void and then not rating.is_empty
+			Result := attached rating as l_rating and then not l_rating.is_empty
 		end
 
 feature -- Status (RSS 1.0)
 
-	has_items_toc: BOOLEAN is
+	has_items_toc: BOOLEAN
 			-- Is `items_toc' set?
 		do
 			Result := items_toc.count > 0
 		end
 
-	has_textinput: BOOLEAN is
+	has_textinput: BOOLEAN
 			-- Is `textinput' set?
 		do
 			Result := textinput /= Void
@@ -445,15 +445,15 @@ feature -- Status (RSS 1.0)
 
 feature -- Status (metadata)
 
-	has_last_added_item: BOOLEAN is
+	has_last_added_item: BOOLEAN
 			-- Is `last_added_item' set?
 		do
 			Result := last_added_item /= Void
 		end
-		
+
 feature -- Basic operations
 
-	add_skip_hour (skip_hour: INTEGER) is
+	add_skip_hour (skip_hour: INTEGER)
 			-- Add a skip hour.
 			-- Only 0 <= `skip_hour' <= 23 is valid
 		require
@@ -461,15 +461,15 @@ feature -- Basic operations
 		do
 			skip_hours.extend (skip_hour)
 		end
-		
-	remove_skip_hour (skip_hour: INTEGER) is
+
+	remove_skip_hour (skip_hour: INTEGER)
 			-- Remove a skip hour
 		do
 			skip_hours.start
 			skip_hours.prune (skip_hour)
 		end
-	
-	add_skip_day (skip_day: STRING) is
+
+	add_skip_day (skip_day: STRING)
 			-- Add a skip day.
 			-- `skip_day' will be added to `skip_days' with the first letter to upper
 			-- and the rest to lower. For example: `mOnDaY' is added as `Monday'
@@ -478,15 +478,15 @@ feature -- Basic operations
 		do
 			skip_days.extend (skip_day)
 		end
-		
-	remove_skip_day (skip_day: STRING) is
+
+	remove_skip_day (skip_day: STRING)
 			-- Remove a skip day
 		do
 			skip_days.start
 			skip_days.prune (skip_day)
 		end
 
-	add_item (item: ITEM) is
+	add_item (item: ITEM)
 			-- Add an item.
 		require
 			non_void_item: item /= Void
@@ -495,8 +495,8 @@ feature -- Basic operations
 			items.extend (item)
 			notify_item_added (item)
 		end
-		
-	remove_item (item: ITEM) is
+
+	remove_item (item: ITEM)
 			-- Remove an item
 		require
 			non_void_item: item /= Void
@@ -507,15 +507,15 @@ feature -- Basic operations
 
 feature -- Basic operations (RSS 1.0)
 
-	add_item_toc (item_toc: URL) is
+	add_item_toc (item_toc: URL)
 			-- Add an item to the TOC	
 		require
 			non_void_item_toc: item_toc /= Void
 		do
-			items_toc.extend (item_toc)	
+			items_toc.extend (item_toc)
 		end
-		
-	remove_item_toc (item_toc: URL) is
+
+	remove_item_toc (item_toc: URL)
 			-- Remove an item from the TOC
 		require
 			non_void_item_toc: item_toc /= Void
@@ -526,42 +526,42 @@ feature -- Basic operations (RSS 1.0)
 
 feature -- Sort
 
-	sort_items_by_title is
+	sort_items_by_title
 			-- Sort items by title
 		do
 			items.set_order (create {ITEM_SORT_BY_TITLE[ITEM]})
 			items.sort
 		end
-		
-	sort_items_by_pub_date is
+
+	sort_items_by_pub_date
 			-- Sort items by publication date
 		do
 			items.set_order (create {ITEM_SORT_BY_PUB_DATE[ITEM]})
 			items.sort
 		end
-		
-	sort_items_by_link is
+
+	sort_items_by_link
 			-- Sort items by link
 		do
 			items.set_order (create {ITEM_SORT_BY_LINK[ITEM]})
 			items.sort
 		end
-		
-	reverse_sort_items_by_title is
+
+	reverse_sort_items_by_title
 			-- Reverse sort items by title
 		do
 			items.set_order (create {ITEM_REVERSE_SORT_BY_TITLE[ITEM]})
 			items.sort
 		end
-		
-	reverse_sort_items_by_pub_date is
+
+	reverse_sort_items_by_pub_date
 			-- Reverse sort items by publication date
 		do
 			items.set_order (create {ITEM_REVERSE_SORT_BY_PUB_DATE[ITEM]})
 			items.sort
 		end
-		
-	reverse_sort_items_by_link is
+
+	reverse_sort_items_by_link
 			-- Reverse sort items by link
 		do
 			items.set_order (create {ITEM_REVERSE_SORT_BY_LINK[ITEM]})
@@ -570,82 +570,82 @@ feature -- Sort
 
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of channel
 			-- This feature is especially useful for debugging
-		do	
+		do
 			Result := "Channel:%N========%N%N"
-			
+
 			Result.append ("* Title: " + title + "%N" + "* Link: " + link.location + "%N" + "* Description: " + description + "%N")
-			
-			if has_language then
-				Result.append ("* Language: " + language + "%N")
+
+			if has_language and then attached language as l_language then
+				Result.append ("* Language: " + l_language + "%N")
 			end
 
-			if has_copyright then
-				Result.append ("* Copyright: " + copyright + "%N")
-			end
-			
-			if has_managing_editor then
-				Result.append ("* Managing Editor: " + managing_editor + "%N")
-			end
-			
-			if has_web_master then
-				Result.append ("* Webmaster: " + web_master + "%N")
-			end
-			
-			if has_pub_date then
-				Result.append ("* Publication date: " + pub_date.out + "%N")
-			end
-			
-			if has_last_build_date then
-				Result.append ("* Last build date: " + last_build_date.out + "%N")
-			end
-			
-			if has_feed_generator then
-				Result.append ("* Feed generator: " + feed_generator + "%N")
-			end
-			
-			if has_docs then
-				Result.append ("* Documentation: " + docs.location + "%N")
-			end
-			
-			if has_ttl then
-				Result.append ("* TTL: " + ttl.out + "%N")
-			end
-			
-			if has_rating then
-				Result.append ("* Rating: " + rating + "%N")
-			end
-			
-			if has_textinput then
-				Result.append ("* Textinput: " + textinput.location + "%N")
+			if has_copyright and then attached copyright as l_copyright then
+				Result.append ("* Copyright: " + l_copyright + "%N")
 			end
 
-			if has_cloud then
-				Result.append ("%NChannel cloud:%N--------------%N" + cloud.to_string)
+			if has_managing_editor and then attached managing_editor as l_managing_editor then
+				Result.append ("* Managing Editor: " + l_managing_editor + "%N")
 			end
 
-			if has_image then
-				Result.append ("%NChannel image:%N--------------%N" + image.to_string)
+			if has_web_master and then attached web_master as l_web_master then
+				Result.append ("* Webmaster: " + l_web_master + "%N")
 			end
-			
-			if has_text_input then
-				Result.append ("%NChannel text input:%N-------------------%N" + text_input.to_string)
+
+			if has_pub_date and then attached pub_date as l_pub_date then
+				Result.append ("* Publication date: " + l_pub_date.out + "%N")
 			end
-			
-			if has_categories then
+
+			if has_last_build_date and then attached last_build_date as l_last_build_date then
+				Result.append ("* Last build date: " + l_last_build_date.out + "%N")
+			end
+
+			if has_feed_generator and then attached feed_generator as l_feed_generator then
+				Result.append ("* Feed generator: " + l_feed_generator + "%N")
+			end
+
+			if has_docs and then attached docs as l_docs then
+				Result.append ("* Documentation: " + l_docs.location + "%N")
+			end
+
+			if has_ttl and then attached ttl as l_ttl then
+				Result.append ("* TTL: " + l_ttl.out + "%N")
+			end
+
+			if has_rating and then attached rating as l_rating then
+				Result.append ("* Rating: " + l_rating + "%N")
+			end
+
+			if has_textinput and then attached textinput as l_textinput then
+				Result.append ("* Textinput: " + l_textinput.location + "%N")
+			end
+
+			if has_cloud and then attached cloud as l_cloud then
+				Result.append ("%NChannel cloud:%N--------------%N" + l_cloud.to_string)
+			end
+
+			if has_image and then attached image as l_image then
+				Result.append ("%NChannel image:%N--------------%N" + l_image.to_string)
+			end
+
+			if has_text_input and then attached text_input as l_text_input then
+				Result.append ("%NChannel text input:%N-------------------%N" + l_text_input.to_string)
+			end
+
+			if has_categories and then attached categories as l_categories then
 				Result.append ("%NChannel categories:%N-------------------%N")
 				from
-					categories.start
+					l_categories.start
 				until
-					categories.after
+					l_categories.after
 				loop
-					Result.append ("* " + categories.item.to_string)
-					categories.forth
+					Result.append ("* " + l_categories.item.to_string)
+					l_categories.forth
 				end
 			end
-			
+
 			if has_items then
 				Result.append ("%N")
 				from
@@ -658,39 +658,39 @@ feature -- Debug
 				end
 			end
 		end
-	
+
 feature -- Implementation
 
-	valid_day (day: STRING): BOOLEAN is
+	valid_day (day: STRING): BOOLEAN
 			-- Is `day' a valid day?
 		require
 			non_empty_day: day /= Void and then not day.is_empty
 		do
 			day.to_lower
-			
-			Result := day.is_equal ("monday") or
-				day.is_equal ("tuesday") or
-				day.is_equal ("wednesday") or
-				day.is_equal ("thursday") or
-				day.is_equal ("friday") or
-				day.is_equal ("saturday") or
-				day.is_equal ("sunday")
+
+			Result := day.same_string ("monday") or
+				day.same_string ("tuesday") or
+				day.same_string ("wednesday") or
+				day.same_string ("thursday") or
+				day.same_string ("friday") or
+				day.same_string ("saturday") or
+				day.same_string ("sunday")
 		end
-		
+
 feature {NONE} -- Implementation
 
-	initialization is
+	initialization
 			-- Common initialization tasks
 		do
 			initialize_observers
 			initialize_categories
-			
+
 			create items.make
 			items.compare_objects
-			
+
 			create items_toc.make
 			items_toc.compare_objects
-			
+
 			create skip_hours.make
 			create skip_days.make
 		end

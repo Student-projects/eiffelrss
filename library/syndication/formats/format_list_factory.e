@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Singleton pattern factory for FORMAT_LIST"
 	author: "Michael Käser"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -9,7 +9,7 @@ class
 	
 feature -- Access
 
-	Format_list: FORMAT_LIST is
+	Format_list: FORMAT_LIST
 			-- Singleton of resource factory
 		once
 			create Result.make_list

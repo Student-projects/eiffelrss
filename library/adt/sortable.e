@@ -1,4 +1,4 @@
-indexing
+note
 	description: "ADT which can be sorted."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -11,13 +11,13 @@ inherit
 
 feature -- Order relation
 
-	has_order: BOOLEAN is
+	has_order: BOOLEAN
 			-- Is an order relation defined?
 		do
 			Result := order_relation /= Void
 		end
-		
-	set_order (an_order_relation: ORDER_RELATION[G]) is
+
+	set_order (an_order_relation: ORDER_RELATION[G])
 			-- Set the order relation.
 		require
 			order_relation_non_void: an_order_relation /= Void
@@ -26,10 +26,10 @@ feature -- Order relation
 		ensure
 			order_relation_set: order_relation = an_order_relation
 		end
-		
+
 feature -- Sorting
 
-	sort is
+	sort
 			-- Sort all items.
 		require
 			has_order: has_order
@@ -37,8 +37,8 @@ feature -- Sorting
 		ensure
 			sorted: sorted
 		end
-		
-	sorted: BOOLEAN is
+
+	sorted: BOOLEAN
 			-- Is the structure sorted?
 		require
 			has_order: has_order
@@ -46,9 +46,9 @@ feature -- Sorting
 		ensure
 			empty_structure_is_sorted: is_empty implies Result
 		end
-			
+
 feature {NONE} -- Implementation
 
-	order_relation: ORDER_RELATION[G]
+	order_relation: detachable ORDER_RELATION[G]
 
 end -- class SORTABLE

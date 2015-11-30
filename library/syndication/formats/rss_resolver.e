@@ -1,4 +1,4 @@
-indexing
+note
 	description: "External resolver for xml parser which ignores all external entities"
 	author: "Michael Käser"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -8,35 +8,34 @@ class
 	RSS_RESOLVER
 
 inherit
-	XM_EXTERNAL_RESOLVER
+	XML_EXTERNAL_RESOLVER
 
 feature -- Action(s)
 
-	resolve (a_system: STRING) is
+	resolve (a_system: STRING)
 			-- Fails.
 		do
-		
+
 		end
-		
+
 feature -- Result
 
-	has_error: BOOLEAN is
+	has_error: BOOLEAN
 			-- Always false
 		do
 			Result := false
 		end
-		
-	last_stream: KI_CHARACTER_INPUT_STREAM is
-			-- Not used.
+
+	last_stream: detachable XML_STRING_INPUT_STREAM
+			-- Last stream initialised from external entity.
 		do
-			create {KL_STRING_INPUT_STREAM} Result.make ("")
+			create Result.make ("")
 		end
-		
-	last_error: STRING is
+
+	last_error: STRING
 			-- Last error message
 		do
 			create Result.make (0)
 		end
-		
 
 end -- class RSS_RESOLVER

@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class that can be inherited by classes which use categories, like item or channel."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -14,7 +14,7 @@ feature -- Access
 			
 feature -- Setter
 
-	set_categories (category_list: like categories) is
+	set_categories (category_list: like categories)
 			-- Set categories with a new category list
 		require
 			non_void_categories: category_list /= Void
@@ -26,7 +26,7 @@ feature -- Setter
 		
 feature -- Status
 	
-	has_categories: BOOLEAN is
+	has_categories: BOOLEAN
 			-- Are there any categories?
 		do
 			Result := categories.count > 0
@@ -34,7 +34,7 @@ feature -- Status
 		
 feature -- Basic operations
 
-	add_category (category: CATEGORY) is
+	add_category (category: CATEGORY)
 			-- Add a category item
 		require
 			non_void_category_item: category /= Void
@@ -42,7 +42,7 @@ feature -- Basic operations
 			categories.extend (category)
 		end
 		
-	remove_category (category: CATEGORY) is
+	remove_category (category: CATEGORY)
 			-- Remove a category item
 		require
 			non_void_category_item: category /= Void
@@ -53,28 +53,28 @@ feature -- Basic operations
 
 feature -- Sort
 
-	sort_categories_by_title is
+	sort_categories_by_title
 			-- Sort categories by title
 		do
 			categories.set_order (create {CATEGORY_SORT_BY_TITLE[CATEGORY]})
 			categories.sort
 		end
 		
-	sort_categories_by_domain is
+	sort_categories_by_domain
 			-- Sort categories by domain
 		do
 			categories.set_order (create {CATEGORY_SORT_BY_DOMAIN[CATEGORY]})
 			categories.sort
 		end
 		
-	reverse_sort_categories_by_title is
+	reverse_sort_categories_by_title
 			-- Reverse sort categories by title
 		do
 			categories.set_order (create {CATEGORY_REVERSE_SORT_BY_TITLE[CATEGORY]})
 			categories.sort
 		end
 		
-	reverse_sort_categories_by_domain is
+	reverse_sort_categories_by_domain
 			-- Reverse sort categories by domain
 		do
 			categories.set_order (create {CATEGORY_REVERSE_SORT_BY_DOMAIN[CATEGORY]})
@@ -83,7 +83,7 @@ feature -- Sort
 		
 feature {CATEGORIES} -- Initialize `categories'
 
-	initialize_categories is
+	initialize_categories
 			-- Initialize `categories'
 		do
 			create categories.make

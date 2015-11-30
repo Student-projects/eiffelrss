@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class to represent a channel cloud sub-element."
 	author: "Thomas Weibel"
 	date: "$Date: 2005-01-31 09:06:57 +0100 (lun., 31 janv. 2005) $"
@@ -12,7 +12,7 @@ create
 	
 feature -- Initialization
 
-	make (a_domain: STRING; a_port: INTEGER; a_path: STRING; a_register_procedure: STRING; a_protocol: STRING) is
+	make (a_domain: STRING; a_port: INTEGER; a_path: STRING; a_register_procedure: STRING; a_protocol: STRING)
 			-- Create a channel cloud with domain, port, path, register procedure and protocol
 		require
 			non_empty_domain: a_domain /= Void and then not a_domain.is_empty
@@ -47,7 +47,7 @@ feature -- Access
 
 feature -- Setter
 
-	set_domain (a_domain: STRING) is
+	set_domain (a_domain: STRING)
 			-- Set domain to`a_domain'
 		require
 			non_empty_domain: a_domain /= Void and then not a_domain.is_empty
@@ -57,7 +57,7 @@ feature -- Setter
 			domain_set: domain = a_domain
 		end
 		
-	set_port (a_port: INTEGER) is
+	set_port (a_port: INTEGER)
 			-- Set port to `a_port'
 		require
 			port_number_non_negative: a_port >= 0
@@ -67,7 +67,7 @@ feature -- Setter
 			port_set: port = a_port
 		end
 		
-	set_path (a_path: STRING) is
+	set_path (a_path: STRING)
 			-- Set path to `a_path'
 		require
 			non_empty_path: a_path /= Void and then not a_path.is_empty
@@ -77,7 +77,7 @@ feature -- Setter
 			path_set: path = a_path
 		end
 		
-	set_register_procedure (a_register_procedure: STRING) is
+	set_register_procedure (a_register_procedure: STRING)
 			-- Set register_procedure to `a_register_procedure'
 		require
 			non_empty_register_procedure: a_register_procedure /= Void and then not a_register_procedure.is_empty
@@ -87,7 +87,7 @@ feature -- Setter
 			register_procedure_set: register_procedure = a_register_procedure
 		end
 		
-	set_protocol (a_protocol: STRING) is
+	set_protocol (a_protocol: STRING)
 			-- Set protocol to `a_protocol'
 		require
 			non_empty_protocol: a_protocol /= Void and then not a_protocol.is_empty
@@ -99,7 +99,7 @@ feature -- Setter
 
 feature -- Debug
 
-	to_string: STRING is
+	to_string: STRING
 			-- Returns a string representation of cloud
 			-- This feature is especially useful for debugging
 		do

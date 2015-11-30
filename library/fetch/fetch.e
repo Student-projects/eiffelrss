@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Class which can fetch data from a source address"
 	author: "Michael Käser"
 	date: "$Date: 2005-01-31 00:25:27 +0100 (lun., 31 janv. 2005) $"
@@ -14,13 +14,13 @@ create
 	make, make_source
 
 feature -- Initialisation
-	make is
+	make
 			-- Create the object without a source
 	do
 		Error := Invalid_address
 	end
 	
-	make_source (an_address: STRING) is
+	make_source (an_address: STRING)
 			-- Create the object with a predefined source
 	require
 		an_address /= Void
@@ -39,12 +39,12 @@ feature -- Access
 	error: INTEGER
 		-- An error number
 		
-	None, Invalid_address, Transfer_failed: INTEGER is unique
+	None, Invalid_address, Transfer_failed: INTEGER = unique
 	
 feature -- Status report
 
 feature -- Basic operations
-	set_address (an_address: STRING) is
+	set_address (an_address: STRING)
 			-- Set the source address
 	do
 		source_address := an_address
@@ -60,7 +60,7 @@ feature -- Basic operations
 		end
 	end
 
-	fetch is
+	fetch
 			-- Fetch the data from the given source address
 	local
 		resource: DATA_RESOURCE
